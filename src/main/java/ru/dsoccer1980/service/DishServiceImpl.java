@@ -1,0 +1,69 @@
+package ru.dsoccer1980.service;
+
+import org.springframework.stereotype.Service;
+import ru.dsoccer1980.model.Dish;
+import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.repository.DishRepository;
+import ru.dsoccer1980.util.exception.NotFoundException;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static ru.dsoccer1980.util.ValidationUtil.checkNotFoundWithId;
+
+
+@Service
+public class DishServiceImpl implements DishService {
+
+    private final DishRepository repository;
+
+    public DishServiceImpl(DishRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public Dish get(long id) throws NotFoundException {
+        Dish dish = repository.findById(id).orElseThrow(() -> new NotFoundException("Not found entity with id:" + id));
+        return checkNotFoundWithId(dish, id);
+    }
+
+    @Override
+    public List<Dish> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Dish create(Dish dish) {
+        Objects.requireNonNull(dish, "dish must not be null");
+        return repository.save(dish);
+    }
+
+    @Override
+    public void delete(long dishId) throws NotFoundException {
+        checkNotFoundWithId(repository.delete(dishId), dishId);
+    }
+
+    @Override
+    public Dish update(Dish dish) {
+        Objects.requireNonNull(dish, "dish must not be null");
+        return repository.save(dish);
+    }
+
+    @Override
+    public List<Dish> getDishByRestaurantAndDate(long id, LocalDate date) {
+        Objects.requireNonNull(date, "date must not be null");
+        return repository.findDishByRestaurantIdAndDate(id, date);
+    }
+
+    @Override
+    public Map<Restaurant, List<Dish>> getDishByDate(LocalDate date) {
+        Objects.requireNonNull(date, "date must not be null");
+        return repository.findDishByDate(date)
+                .stream()
+                .collect(Collectors.groupingBy(Dish::getRestaurant));
+    }
+
+}
