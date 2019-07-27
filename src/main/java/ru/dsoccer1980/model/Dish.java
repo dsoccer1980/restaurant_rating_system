@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
@@ -21,7 +22,6 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@NamedEntityGraph(name = "dishGraph", includeAllAttributes = true)
 public class Dish {
 
     @Id
@@ -35,7 +35,7 @@ public class Dish {
     private String name;
 
     @Column(name = "price", nullable = false)
-    private Integer price;
+    private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -48,7 +48,7 @@ public class Dish {
     @NotNull
     private LocalDate date;
 
-    public Dish(@NotBlank @Size(min = 2, max = 100) String name, Integer price, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
+    public Dish(@NotBlank @Size(min = 2, max = 100) String name, BigDecimal price, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
         this.name = name;
         this.price = price;
         this.restaurant = restaurant;

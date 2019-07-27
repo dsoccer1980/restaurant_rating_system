@@ -14,6 +14,7 @@ import ru.dsoccer1980.repository.DishRepository;
 import ru.dsoccer1980.repository.RestaurantRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -32,8 +33,8 @@ public class DishServiceImplTest {
     private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53");
     private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14");
 
-    private final Dish DISH1 = new Dish("Borsh", 2553, RESTAURANT1, LocalDate.of(2019, 7, 24));
-    private final Dish DISH2 = new Dish("Soljanka", 2353, RESTAURANT2, LocalDate.of(2019, 7, 23));
+    private final Dish DISH1 = new Dish("Borsh", new BigDecimal(255.3), RESTAURANT1, LocalDate.of(2019, 7, 24));
+    private final Dish DISH2 = new Dish("Soljanka", new BigDecimal(235.3), RESTAURANT2, LocalDate.of(2019, 7, 23));
 
     @Autowired
     private DishRepository dishRepository;
@@ -70,7 +71,7 @@ public class DishServiceImplTest {
 
     @Test
     void create() {
-        Dish newDish = dishService.create(new Dish("New dish", 2700, RESTAURANT1, LocalDate.of(2019, 7, 25)));
+        Dish newDish = dishService.create(new Dish("New dish", new BigDecimal(270.0), RESTAURANT1, LocalDate.of(2019, 7, 25)));
         assertThat(dishService.getAll()).isEqualTo(Arrays.asList(DISH1, DISH2, newDish));
     }
 
@@ -92,7 +93,7 @@ public class DishServiceImplTest {
     @Test
     void getDishByDate() {
         Map<Restaurant, List<Dish>> result = dishService.getDishByDate(LocalDate.of(2019, 7, 24));
-        assertThat(result).isEqualTo(Map.of(RESTAURANT1, Arrays.asList(DISH1)));
+        assertThat(result).isEqualTo(Map.of(RESTAURANT1, Collections.singletonList(DISH1)));
     }
 
     @Test

@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.model.Dish;
 import ru.dsoccer1980.model.Restaurant;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,8 +27,8 @@ public class DishRepositoryTest {
     private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53");
     private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14");
 
-    private final Dish DISH1 = new Dish("Borsh", 2553, RESTAURANT1, LocalDate.of(2019, 7, 24));
-    private final Dish DISH2 = new Dish("Soljanka", 2353, RESTAURANT2, LocalDate.of(2019, 7, 23));
+    private final Dish DISH1 = new Dish("Borsh", new BigDecimal(255.3), RESTAURANT1, LocalDate.of(2019, 7, 24));
+    private final Dish DISH2 = new Dish("Soljanka", new BigDecimal(235.3), RESTAURANT2, LocalDate.of(2019, 7, 23));
 
     @Autowired
     private DishRepository dishRepository;
@@ -56,7 +57,7 @@ public class DishRepositoryTest {
 
     @Test
     void create() {
-        Dish newDish = dishRepository.save(new Dish("New dish", 2700, RESTAURANT1, LocalDate.of(2019, 7, 25)));
+        Dish newDish = dishRepository.save(new Dish("New dish", new BigDecimal(270.0), RESTAURANT1, LocalDate.of(2019, 7, 25)));
         assertThat(dishRepository.findAll()).isEqualTo(Arrays.asList(DISH1, DISH2, newDish));
     }
 
