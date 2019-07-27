@@ -1,7 +1,5 @@
 package ru.dsoccer1980.service;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import ru.dsoccer1980.model.User;
@@ -28,27 +26,23 @@ public class UserServiceImpl implements UserService {
         return checkNotFoundWithId(user, id);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User update(User user) throws NotFoundException {
         Assert.notNull(user, "user must not be null");
         return checkNotFoundWithId(repository.save(user), user.getId());
     }
 
-    @Cacheable("users")
     @Override
     public List<User> getAll() {
         return repository.findAll();
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
         return repository.save(user);
     }
 
-    @CacheEvict(value = "users", allEntries = true)
     @Override
     public void delete(long id) throws NotFoundException {
         checkNotFoundWithId(repository.delete(id), id);
