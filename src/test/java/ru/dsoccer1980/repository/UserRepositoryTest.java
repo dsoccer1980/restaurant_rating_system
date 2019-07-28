@@ -64,5 +64,11 @@ public class UserRepositoryTest {
         assertThat(repository.findAll()).isEqualTo(Collections.singletonList(USER2));
     }
 
+    @Test
+    void deleteWithWrongId() {
+        assertThat(repository.delete(-1)).isEqualTo(0);
+        assertThat(repository.findAll()).isEqualTo(Arrays.asList(USER1, USER2));
+    }
+
 
 }

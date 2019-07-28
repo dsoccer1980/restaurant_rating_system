@@ -9,7 +9,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.repository.RestaurantRepository;
-import ru.dsoccer1980.service.RestaurantService;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -72,5 +71,10 @@ class RestaurantServiceImplTest {
     void delete() {
         service.delete(RESTAURANT1.getId());
         assertThat(service.getAll()).isEqualTo(Collections.singletonList(RESTAURANT2));
+    }
+
+    @Test
+    void deleteWithWrongId() {
+        assertThrows(NotFoundException.class, () -> service.delete(-1));
     }
 }

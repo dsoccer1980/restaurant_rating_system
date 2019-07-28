@@ -91,6 +91,11 @@ public class DishServiceImplTest {
     }
 
     @Test
+    void deleteWithWrongId() {
+        assertThrows(NotFoundException.class, () -> dishService.delete(-1));
+    }
+
+    @Test
     void getDishByDate() {
         Map<Restaurant, List<Dish>> result = dishService.getDishByDate(LocalDate.of(2019, 7, 24));
         assertThat(result).isEqualTo(Map.of(RESTAURANT1, Collections.singletonList(DISH1)));

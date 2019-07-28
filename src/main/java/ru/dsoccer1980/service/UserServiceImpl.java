@@ -1,14 +1,12 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.List;
-
-import static ru.dsoccer1980.util.ValidationUtil.checkNotFoundWithId;
+import java.util.Objects;
 
 
 @Service
@@ -22,14 +20,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User get(long id) throws NotFoundException {
-        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("Not found user with id:" + id));
-        return checkNotFoundWithId(user, id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found user with id:" + id));
     }
 
     @Override
     public User update(User user) throws NotFoundException {
-        Assert.notNull(user, "user must not be null");
-        return checkNotFoundWithId(repository.save(user), user.getId());
+        Objects.requireNonNull(user, "user must not be null");
+        return repository.save(user);
     }
 
     @Override
@@ -39,13 +36,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
-        Assert.notNull(user, "user must not be null");
+        Objects.requireNonNull(user, "user must not be null");
         return repository.save(user);
     }
 
     @Override
     public void delete(long id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id), id);
+        if (repository.delete(id) == 0) {
+            throw new NotFoundException("Not found entity with id:" + id);
+        }
     }
 
     @Override

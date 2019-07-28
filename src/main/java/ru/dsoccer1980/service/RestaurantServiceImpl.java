@@ -8,8 +8,6 @@ import ru.dsoccer1980.util.exception.NotFoundException;
 import java.util.List;
 import java.util.Objects;
 
-import static ru.dsoccer1980.util.ValidationUtil.checkNotFoundWithId;
-
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
@@ -22,8 +20,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public Restaurant get(long id) throws NotFoundException {
-        Restaurant restaurant = repository.findById(id).orElseThrow(() -> new NotFoundException("Not found entity with id:" + id));
-        return checkNotFoundWithId(restaurant, id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found entity with id:" + id));
     }
 
     @Override
@@ -35,18 +32,19 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant create(Restaurant restaurant) {
         Objects.requireNonNull(restaurant, "restaurant must not be null");
         return repository.save(restaurant);
-
     }
 
     @Override
-    public Restaurant update(Restaurant restaurant) throws NotFoundException {
+    public Restaurant update(Restaurant restaurant) {
         Objects.requireNonNull(restaurant, "restaurant must not be null");
-        return checkNotFoundWithId(repository.save(restaurant), restaurant.getId());
+        return repository.save(restaurant);
     }
 
     @Override
     public void delete(long id) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(id), id);
+        if (repository.delete(id) == 0) {
+            throw new NotFoundException("Not found entity with id:" + id);
+        }
     }
 
 }

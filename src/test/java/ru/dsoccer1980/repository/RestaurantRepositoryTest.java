@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.model.Restaurant;
-import ru.dsoccer1980.repository.RestaurantRepository;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +61,12 @@ public class RestaurantRepositoryTest {
     void delete() {
         repository.delete(RESTAURANT1.getId());
         assertThat(repository.findAll()).isEqualTo(Collections.singletonList(RESTAURANT2));
+    }
+
+    @Test
+    void deleteWithWrongId() {
+        assertThat(repository.delete(-1)).isEqualTo(0);
+        assertThat(repository.findAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2));
     }
 
 

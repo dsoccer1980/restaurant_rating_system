@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static ru.dsoccer1980.util.ValidationUtil.checkNotFoundWithId;
-
 
 @Service
 public class DishServiceImpl implements DishService {
@@ -26,8 +24,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public Dish get(long id) throws NotFoundException {
-        Dish dish = repository.findById(id).orElseThrow(() -> new NotFoundException("Not found entity with id:" + id));
-        return checkNotFoundWithId(dish, id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Not found entity with id:" + id));
     }
 
     @Override
@@ -43,7 +40,9 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public void delete(long dishId) throws NotFoundException {
-        checkNotFoundWithId(repository.delete(dishId), dishId);
+        if (repository.delete(dishId) == 0) {
+            throw new NotFoundException("Not found entity with id:" + dishId);
+        }
     }
 
     @Override

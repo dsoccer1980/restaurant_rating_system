@@ -10,19 +10,21 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.UserRepository;
+import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @ActiveProfiles("test")
 class UserServiceImplTest {
 
-    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.USER);
-    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.USER);
+    private final User USER1 = new User("Ivanov", "ivan1@gmail.com", "password", Role.USER);
+    private final User USER2 = new User("Petrov", "petr1@gmail.com", "password2", Role.USER);
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -65,6 +67,11 @@ class UserServiceImplTest {
     void delete() {
         userService.delete(USER1.getId());
         assertThat(userService.getAll()).isEqualTo(Collections.singletonList(USER2));
+    }
+
+    @Test
+    void deleteWithWrongId() {
+        assertThrows(NotFoundException.class, () -> userService.delete(-1));
     }
 
     @Test

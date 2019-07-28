@@ -77,6 +77,12 @@ public class DishRepositoryTest {
     }
 
     @Test
+    void deleteWithWrongId() {
+        assertThat(dishRepository.delete(-1)).isEqualTo(0);
+        assertThat(dishRepository.findAll()).isEqualTo(Arrays.asList(DISH1, DISH2));
+    }
+
+    @Test
     void getDishByDate() {
         List<Dish> dishByDate = dishRepository.findDishByDate(LocalDate.of(2019, 7, 24));
         assertThat(dishByDate).isEqualTo(Collections.singletonList(DISH1));

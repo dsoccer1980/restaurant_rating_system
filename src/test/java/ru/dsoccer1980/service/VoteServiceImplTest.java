@@ -1,6 +1,7 @@
 package ru.dsoccer1980.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class VoteServiceImplTest {
     private VoteRepository voteRepository;
 
     @Autowired
-    private VoteService service;
+    private VoteService voteService;
 
     @BeforeEach
     void beforeEach() {
@@ -66,38 +67,47 @@ public class VoteServiceImplTest {
     @Test
     public void save() {
         LocalDate date = LocalDate.now().plusDays(1);
-        Vote vote = service.save(USER1.getId(), RESTAURANT1.getId(), date);
-        assertThat(service.getVotesByRestaurantAndDate(RESTAURANT1.getId(), date)).isEqualTo(Collections.singletonList(vote));
+        Vote vote = voteService.save(USER1.getId(), RESTAURANT1.getId(), date);
+        assertThat(voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), date)).isEqualTo(Collections.singletonList(vote));
+    }
+
+    @Test
+    @DisplayName("User changed his mind and voted for other restaurant")
+    public void save2() {
+        LocalDate date = LocalDate.now().plusDays(1);
+        voteService.save(USER1.getId(), RESTAURANT1.getId(), date);
+        Vote changedVote = voteService.save(USER1.getId(), RESTAURANT2.getId(), date);
+        assertThat(voteService.getVotesByRestaurantAndDate(RESTAURANT2.getId(), date)).isEqualTo(Collections.singletonList(changedVote));
     }
 
     @Test
     public void delete() {
-        service.delete(USER1.getId(), DATE1);
-        List<Vote> votes = service.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
+        voteService.delete(USER1.getId(), DATE1);
+        List<Vote> votes = voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
         assertThat(votes).isEqualTo(Collections.singletonList(VOTE2));
     }
 
     @Test
     public void getVotesByRestaurantAndByDate() {
-        List<Vote> votes = service.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
+        List<Vote> votes = voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
         assertThat(votes).isEqualTo(Arrays.asList(VOTE1, VOTE2));
     }
 
     @Test
     public void getVotesByUserId() {
-        List<Vote> votes = service.getVotesByUser(USER1.getId());
+        List<Vote> votes = voteService.getVotesByUser(USER1.getId());
         assertThat(votes).isEqualTo(Collections.singletonList(VOTE1));
     }
 
     @Test
     public void getVotesByUserIdAndDate() {
-        Vote vote = service.get(USER1.getId(), DATE1);
+        Vote vote = voteService.get(USER1.getId(), DATE1);
         assertThat(vote).isEqualTo(VOTE1);
     }
 
     @Test
     public void getVotesAmountForRestaurantsByDate() {
-        Map<Restaurant, Long> votesAmount = service.getRestaurantVotesAmountByDate(DATE1);
+        Map<Restaurant, Long> votesAmount = voteService.getRestaurantVotesAmountByDate(DATE1);
         assertThat(votesAmount).isEqualTo(Map.of(RESTAURANT1, 2L));
     }
 
