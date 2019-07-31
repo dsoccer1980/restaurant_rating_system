@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -63,6 +64,19 @@ public class DishServiceImpl implements DishService {
         return repository.findDishByDate(date)
                 .stream()
                 .collect(Collectors.groupingBy(Dish::getRestaurant));
+    }
+
+    @Override
+    public Set<LocalDate> getDatesByRestaurant(long id) {
+        return repository.findDishByRestaurantId(id).stream().map(Dish::getDate).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Restaurant> getRestaurantsIntroducedTodayMenu() {
+        return repository.findDishByDate(LocalDate.now())
+                .stream()
+                .map(Dish::getRestaurant)
+                .collect(Collectors.toSet());
     }
 
 }

@@ -21,3 +21,15 @@ logging:
     org:
       hibernate:
         type: trace
+
+jwt:
+  signing:
+    key:
+      secret: mySecret
+  http:
+    request:
+      header: Authorization
+  token:
+    expiration:
+      in:
+        seconds: 604800

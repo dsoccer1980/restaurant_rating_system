@@ -7,6 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.model.User;
 
+import java.util.Optional;
+
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -16,4 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     int delete(@Param("id") long id);
 
     User findByEmail(String email);
+
+    Optional<User> findByName(String username);
 }

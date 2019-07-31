@@ -1,5 +1,6 @@
 package ru.dsoccer1980.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,7 +22,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
 
     List<Vote> findByRestaurantIdAndDate(long id, LocalDate date);
 
-    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.user.id=:userId")
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant JOIN FETCH v.user WHERE v.user.id=:userId")
     List<Vote> findByUserId(@Param("userId") long userId);
 
     @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.date=:date")

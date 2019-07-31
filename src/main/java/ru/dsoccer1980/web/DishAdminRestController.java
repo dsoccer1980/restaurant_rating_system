@@ -6,11 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.dsoccer1980.model.Dish;
+import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.service.DishService;
 import ru.dsoccer1980.service.RestaurantService;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -43,7 +45,13 @@ public class DishAdminRestController {
         dishService.update(dish);
     }
 
-    @GetMapping(value = "/admin/dish/restaurant/{id}/date/{date}")
+    @GetMapping(value = "/admin/dish/date")
+    public Set<LocalDate> getDatesByRestaurant() {
+        long id = AuthorizedUser.get().getId();
+        return dishService.getDatesByRestaurant(id);
+    }
+
+    @GetMapping(value = "/dish/restaurant/{id}/date/{date}")
     public List<Dish> getDishByRestaurantAndDate(@PathVariable("id") long id,
                                                  @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         return dishService.getDishByRestaurantAndDate(id, date);
@@ -52,6 +60,11 @@ public class DishAdminRestController {
     @GetMapping("/dish/{id}")
     public Dish getDishById(@PathVariable("id") long id) {
         return dishService.get(id);
+    }
+
+    @GetMapping(value = "/user/restaurant")
+    public Set<Restaurant> getRestaurantsIntroducedTodayMenu() {
+        return dishService.getRestaurantsIntroducedTodayMenu();
     }
 
 }
