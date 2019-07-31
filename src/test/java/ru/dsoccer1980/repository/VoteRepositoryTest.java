@@ -24,8 +24,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class VoteRepositoryTest {
 
 
-    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.USER);
-    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.USER);
+    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.COMPANY);
+    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.COMPANY);
     private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
     private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
     private final Vote VOTE1 = new Vote(USER1, RESTAURANT1, LocalDate.of(2019, 7, 24));
@@ -41,12 +41,12 @@ public class VoteRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        restaurantRepository.deleteAll();
-        restaurantRepository.save(RESTAURANT1);
-        restaurantRepository.save(RESTAURANT2);
         userRepository.deleteAll();
         userRepository.save(USER1);
         userRepository.save(USER2);
+        restaurantRepository.deleteAll();
+        restaurantRepository.save(RESTAURANT1);
+        restaurantRepository.save(RESTAURANT2);
         voteRepository.deleteAll();
         voteRepository.save(VOTE1);
         voteRepository.save(VOTE2);

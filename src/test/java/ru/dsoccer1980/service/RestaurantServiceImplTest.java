@@ -11,6 +11,7 @@ import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.RestaurantRepository;
+import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.util.Arrays;
@@ -33,10 +34,15 @@ class RestaurantServiceImplTest {
     @Autowired
     private RestaurantRepository repository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
     private RestaurantService service;
 
     @BeforeEach
     void beforeEach() {
+        userRepository.deleteAll();
+        userRepository.save(USER1);
+        userRepository.save(USER2);
         repository.deleteAll();
         repository.save(RESTAURANT1);
         repository.save(RESTAURANT2);
@@ -59,6 +65,7 @@ class RestaurantServiceImplTest {
 
     @Test
     void create() {
+        userRepository.save(NEW_USER);
         Restaurant newRestaurant = service.create(new Restaurant("New", "Address", NEW_USER));
         assertThat(service.getAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
     }

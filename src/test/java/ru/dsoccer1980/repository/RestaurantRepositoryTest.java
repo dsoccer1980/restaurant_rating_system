@@ -30,9 +30,14 @@ public class RestaurantRepositoryTest {
     private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
     @Autowired
     private RestaurantRepository repository;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void beforeEach() {
+        userRepository.deleteAll();
+        userRepository.save(USER1);
+        userRepository.save(USER2);
         repository.deleteAll();
         repository.save(RESTAURANT1);
         repository.save(RESTAURANT2);
@@ -50,6 +55,7 @@ public class RestaurantRepositoryTest {
 
     @Test
     void create() {
+        userRepository.save(NEW_USER);
         Restaurant newRestaurant = repository.save(new Restaurant("New", "Address", NEW_USER));
         assertThat(repository.findAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
     }

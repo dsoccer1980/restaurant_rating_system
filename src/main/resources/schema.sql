@@ -7,6 +7,17 @@ DROP SEQUENCE IF EXISTS GLOBAL_SEQ;
 
 CREATE SEQUENCE GLOBAL_SEQ START WITH 100000;
 
+CREATE TABLE users
+(
+  id         BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
+  name       VARCHAR(255)                     NOT NULL,
+  email      VARCHAR(255)                     NOT NULL,
+  password   VARCHAR(255)                     NOT NULL,
+  registered TIMESTAMP          DEFAULT now() NOT NULL
+);
+CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
+CREATE UNIQUE INDEX users_unique_ename_idx ON users (name);
+
 CREATE TABLE restaurant
 (
   id      BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
@@ -26,16 +37,6 @@ CREATE TABLE dish
   FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 CREATE UNIQUE INDEX dish_unique_idx ON dish (restaurant_id, date, name);
-
-CREATE TABLE users
-(
-  id         BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
-  name       VARCHAR(255)                     NOT NULL,
-  email      VARCHAR(255)                     NOT NULL,
-  password   VARCHAR(255)                     NOT NULL,
-  registered TIMESTAMP          DEFAULT now() NOT NULL
-);
-CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 
 CREATE TABLE user_roles
 (

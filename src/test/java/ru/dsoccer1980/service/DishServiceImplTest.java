@@ -14,6 +14,7 @@ import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.DishRepository;
 import ru.dsoccer1980.repository.RestaurantRepository;
+import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.math.BigDecimal;
@@ -44,12 +45,17 @@ public class DishServiceImplTest {
     private DishRepository dishRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
-
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private DishService dishService;
 
+
     @BeforeEach
     void beforeEach() {
+        userRepository.deleteAll();
+        userRepository.save(USER1);
+        userRepository.save(USER2);
         restaurantRepository.deleteAll();
         restaurantRepository.save(RESTAURANT1);
         restaurantRepository.save(RESTAURANT2);

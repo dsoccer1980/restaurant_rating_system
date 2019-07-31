@@ -53,12 +53,12 @@ public class VoteServiceImplTest {
 
     @BeforeEach
     void beforeEach() {
-        restaurantRepository.deleteAll();
-        restaurantRepository.save(RESTAURANT1);
-        restaurantRepository.save(RESTAURANT2);
         userRepository.deleteAll();
         userRepository.save(USER1);
         userRepository.save(USER2);
+        restaurantRepository.deleteAll();
+        restaurantRepository.save(RESTAURANT1);
+        restaurantRepository.save(RESTAURANT2);
         voteRepository.deleteAll();
         voteRepository.save(VOTE1);
         voteRepository.save(VOTE2);

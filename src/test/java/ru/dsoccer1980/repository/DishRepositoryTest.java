@@ -38,9 +38,14 @@ public class DishRepositoryTest {
     private DishRepository dishRepository;
     @Autowired
     private RestaurantRepository restaurantRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void beforeEach() {
+        userRepository.deleteAll();
+        userRepository.save(USER1);
+        userRepository.save(USER2);
         restaurantRepository.deleteAll();
         restaurantRepository.save(RESTAURANT1);
         restaurantRepository.save(RESTAURANT2);
