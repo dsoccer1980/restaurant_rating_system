@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.model.Dish;
@@ -33,7 +34,8 @@ public class DishRepositoryTest {
 
     private final Dish DISH1 = new Dish("Borsh", new BigDecimal(255.3), RESTAURANT1, LocalDate.of(2019, 7, 24));
     private final Dish DISH2 = new Dish("Soljanka", new BigDecimal(235.3), RESTAURANT2, LocalDate.of(2019, 7, 23));
-
+    @Autowired
+    TestEntityManager testEntityManager;
     @Autowired
     private DishRepository dishRepository;
     @Autowired
@@ -44,14 +46,20 @@ public class DishRepositoryTest {
     @BeforeEach
     void beforeEach() {
         userRepository.deleteAll();
-        userRepository.save(USER1);
-        userRepository.save(USER2);
+        testEntityManager.persist(USER1);
+        testEntityManager.persist(USER2);
+        //  userRepository.save(USER1);
+        //   userRepository.save(USER2);
         restaurantRepository.deleteAll();
-        restaurantRepository.save(RESTAURANT1);
-        restaurantRepository.save(RESTAURANT2);
+        testEntityManager.persist(RESTAURANT1);
+        testEntityManager.persist(RESTAURANT2);
+        //   restaurantRepository.save(RESTAURANT1);
+        //   restaurantRepository.save(RESTAURANT2);
         dishRepository.deleteAll();
-        dishRepository.save(DISH1);
-        dishRepository.save(DISH2);
+        testEntityManager.persist(DISH1);
+        testEntityManager.persist(DISH2);
+        //   dishRepository.save(DISH1);
+        //   dishRepository.save(DISH2);
     }
 
     @Test
