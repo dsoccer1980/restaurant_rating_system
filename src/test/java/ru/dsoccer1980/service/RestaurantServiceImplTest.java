@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.model.Role;
+import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.RestaurantRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
@@ -22,8 +24,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ActiveProfiles("test")
 class RestaurantServiceImplTest {
 
-    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53");
-    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14");
+    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.COMPANY);
+    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.COMPANY);
+    private final User NEW_USER = new User("new", "new@gmail.com", "password3", Role.COMPANY);
+    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
+    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
 
     @Autowired
     private RestaurantRepository repository;
@@ -54,7 +59,7 @@ class RestaurantServiceImplTest {
 
     @Test
     void create() {
-        Restaurant newRestaurant = service.create(new Restaurant("New", "Address"));
+        Restaurant newRestaurant = service.create(new Restaurant("New", "Address", NEW_USER));
         assertThat(service.getAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
     }
 

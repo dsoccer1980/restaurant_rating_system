@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.model.Role;
+import ru.dsoccer1980.model.User;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,8 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class RestaurantRepositoryTest {
 
-    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53");
-    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14");
+    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.COMPANY);
+    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.COMPANY);
+    private final User NEW_USER = new User("new", "new@gmail.com", "password3", Role.COMPANY);
+
+    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
+    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
     @Autowired
     private RestaurantRepository repository;
 
@@ -44,7 +50,7 @@ public class RestaurantRepositoryTest {
 
     @Test
     void create() {
-        Restaurant newRestaurant = repository.save(new Restaurant("New", "Address"));
+        Restaurant newRestaurant = repository.save(new Restaurant("New", "Address", NEW_USER));
         assertThat(repository.findAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
     }
 

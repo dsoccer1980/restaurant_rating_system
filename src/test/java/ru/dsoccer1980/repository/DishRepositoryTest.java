@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.model.Dish;
 import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.model.Role;
+import ru.dsoccer1980.model.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -24,8 +26,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class DishRepositoryTest {
 
-    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53");
-    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14");
+    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.COMPANY);
+    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.COMPANY);
+    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
+    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
 
     private final Dish DISH1 = new Dish("Borsh", new BigDecimal(255.3), RESTAURANT1, LocalDate.of(2019, 7, 24));
     private final Dish DISH2 = new Dish("Soljanka", new BigDecimal(235.3), RESTAURANT2, LocalDate.of(2019, 7, 23));

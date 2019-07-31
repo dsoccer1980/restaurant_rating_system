@@ -27,9 +27,12 @@ public class DishAdminRestController {
         this.restaurantService = restaurantService;
     }
 
-    @PostMapping(value = "/admin/dish/restaurant/{restaurantId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Dish createWithLocation(@RequestBody Dish dish, @PathVariable("restaurantId") long restaurantId) {
-        dish.setRestaurant(restaurantService.get(restaurantId));
+    @PostMapping(value = "/admin/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Dish createDish(@RequestBody Dish dish) {
+        if (dish.getDate().isBefore(LocalDate.now())) {
+            return null;
+        }
+        dish.setRestaurant(restaurantService.get(getRestaurantId()));
         return dishService.create(dish);
     }
 
@@ -47,8 +50,12 @@ public class DishAdminRestController {
 
     @GetMapping(value = "/admin/dish/date")
     public Set<LocalDate> getDatesByRestaurant() {
-        long id = AuthorizedUser.get().getId();
-        return dishService.getDatesByRestaurant(id);
+        return dishService.getDatesByRestaurant(getRestaurantId());
+    }
+
+    @GetMapping(value = "/admin/dish/date/{date}")
+    public List<Dish> getDishByDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return dishService.getDishByRestaurantAndDate(getRestaurantId(), date);
     }
 
     @GetMapping(value = "/dish/restaurant/{id}/date/{date}")
@@ -65,6 +72,11 @@ public class DishAdminRestController {
     @GetMapping(value = "/user/restaurant")
     public Set<Restaurant> getRestaurantsIntroducedTodayMenu() {
         return dishService.getRestaurantsIntroducedTodayMenu();
+    }
+
+    private long getRestaurantId() {
+        long userId = AuthorizedUser.get().getId();
+        return restaurantService.getRestaurantByUserId(userId).getId();
     }
 
 }

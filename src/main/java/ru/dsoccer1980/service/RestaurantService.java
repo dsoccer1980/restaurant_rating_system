@@ -17,4 +17,6 @@ public interface RestaurantService {
     Restaurant update(Restaurant restaurant);
 
     void delete(long id) throws NotFoundException;
+
+    Restaurant getRestaurantByUserId(long userId);
 }

@@ -11,7 +11,9 @@ CREATE TABLE restaurant
 (
   id      BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
   name    VARCHAR(255) NOT NULL,
-  address VARCHAR(255) NOT NULL
+  address VARCHAR(255) NOT NULL,
+  user_id BIGINT       NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE dish

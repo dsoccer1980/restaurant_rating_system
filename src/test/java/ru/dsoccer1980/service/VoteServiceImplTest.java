@@ -32,10 +32,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class VoteServiceImplTest {
 
     private final LocalDate DATE1 = LocalDate.of(2019, 7, 24);
-    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53");
-    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14");
+
     private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.USER);
     private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.USER);
+    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
+    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
     private final Vote VOTE1 = new Vote(USER1, RESTAURANT1, DATE1);
     private final Vote VOTE2 = new Vote(USER2, RESTAURANT1, DATE1);
     private final Vote VOTE3 = new Vote(USER2, RESTAURANT2, LocalDate.of(2019, 7, 25));

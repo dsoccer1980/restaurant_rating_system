@@ -3,16 +3,11 @@ package ru.dsoccer1980.web.vote;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.model.Vote;
 import ru.dsoccer1980.service.VoteService;
 import ru.dsoccer1980.web.AuthorizedUser;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,7 +23,7 @@ public class VoteRestController {
     }
 
     @PostMapping(value = "/user/vote/restaurant/{restaurantId}/date/{date}")
-    public void createWithLocation(
+    public void createVote(
             @PathVariable("restaurantId") int restaurantId,
             @PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         long userId = AuthorizedUser.get().getId();

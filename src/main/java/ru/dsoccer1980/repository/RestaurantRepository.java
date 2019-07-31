@@ -7,9 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.model.Restaurant;
 
-import java.lang.annotation.Native;
-import java.util.List;
-
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
@@ -17,4 +14,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Modifying
     @Query("DELETE FROM Restaurant u WHERE u.id=:id")
     int delete(@Param("id") long id);
+
+    Restaurant findRestaurantByUserId(long userId);
 }

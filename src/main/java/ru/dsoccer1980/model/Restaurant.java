@@ -1,6 +1,7 @@
 package ru.dsoccer1980.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,10 +42,12 @@ public class Restaurant {
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
+    @JsonIgnore
     private User user;
 
-    public Restaurant(@NotBlank @Size(min = 2, max = 100) String name, @NotBlank @Size(max = 100) String address) {
+    public Restaurant(@NotBlank @Size(min = 2, max = 100) String name, @NotBlank @Size(max = 100) String address, @NotNull User user) {
         this.name = name;
         this.address = address;
+        this.user = user;
     }
 }
