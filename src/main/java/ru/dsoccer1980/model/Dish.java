@@ -22,6 +22,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(name = "dishGraph", includeAllAttributes = true)
 public class Dish {
 
     @Id
