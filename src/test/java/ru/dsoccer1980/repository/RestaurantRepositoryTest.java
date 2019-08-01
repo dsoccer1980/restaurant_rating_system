@@ -3,6 +3,7 @@ package ru.dsoccer1980.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.EmptyResultDataAccessException;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RestaurantRepositoryTest extends AbstractDataJpaTest {
 
@@ -58,13 +60,13 @@ public class RestaurantRepositoryTest extends AbstractDataJpaTest {
 
     @Test
     void delete() {
-        repository.delete(RESTAURANT1.getId());
+        repository.deleteById(RESTAURANT1.getId());
         assertThat(repository.findAll()).isEqualTo(Collections.singletonList(RESTAURANT2));
     }
 
     @Test
     void deleteWithWrongId() {
-        assertThat(repository.delete(-1)).isEqualTo(0);
+        assertThrows(EmptyResultDataAccessException.class, () -> repository.deleteById(-1L));
         assertThat(repository.findAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2));
     }
 

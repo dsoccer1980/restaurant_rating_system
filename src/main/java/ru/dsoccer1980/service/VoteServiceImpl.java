@@ -1,5 +1,6 @@
 package ru.dsoccer1980.service;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.User;
@@ -46,12 +47,16 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public Vote save(Vote vote) {
         return voteRepository.save(vote);
-
     }
 
     @Override
     public boolean delete(long userId, LocalDate date) {
-        return voteRepository.delete(userId, date) != 0;
+        try {
+            voteRepository.deleteByUserIdAndDate(userId, date);
+            return true;
+        } catch (EmptyResultDataAccessException e) {
+            return false;
+        }
     }
 
     @Override

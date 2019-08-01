@@ -1,5 +1,6 @@
 package ru.dsoccer1980.service;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.repository.RestaurantRepository;
@@ -42,7 +43,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public void delete(long id) throws NotFoundException {
-        if (repository.delete(id) == 0) {
+        try {
+            repository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
             throw new NotFoundException("Not found entity with id:" + id);
         }
     }
