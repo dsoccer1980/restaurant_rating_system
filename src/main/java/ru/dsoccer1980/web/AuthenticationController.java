@@ -1,6 +1,5 @@
 package ru.dsoccer1980.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,25 +20,29 @@ import ru.dsoccer1980.service.UserDetailsServiceImpl;
 import java.security.Principal;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthenticationController {
 
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenUtil jwtTokenUtil;
+    private final UserDetailsServiceImpl userDetailsService;
     @Value("${jwt.http.request.header}")
     private String tokenHeader;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    public AuthenticationController(AuthenticationManager authenticationManager, JwtTokenUtil jwtTokenUtil, UserDetailsServiceImpl userDetailsService) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
     @GetMapping("/role")
-    public Set<Role> getRole(Principal currentUser) {
-        return ((User) ((UsernamePasswordAuthenticationToken) currentUser).getPrincipal()).getRoles();
+    public Set<String> getRole(Principal currentUser) {
+        return ((User) ((UsernamePasswordAuthenticationToken) currentUser).getPrincipal())
+                .getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
     }
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)

@@ -48,11 +48,11 @@ CREATE UNIQUE INDEX role_unique_name_idx ON role (name);
 
 CREATE TABLE user_roles
 (
-  user_id BIGINT NOT NULL,
-  role_id BIGINT NOT NULL,
-  CONSTRAINT user_roles_idx UNIQUE (user_id, role_id),
+  user_id  BIGINT NOT NULL,
+  roles_id BIGINT NOT NULL,
+  CONSTRAINT user_roles_idx UNIQUE (user_id, roles_id),
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-  FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
+  FOREIGN KEY (roles_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_vote

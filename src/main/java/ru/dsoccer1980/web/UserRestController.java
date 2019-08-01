@@ -16,17 +16,17 @@ import java.util.Set;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserAdminController {
+public class UserRestController {
 
     private final UserService userService;
     private final RoleService roleService;
 
-    public UserAdminController(UserService userService, RoleService roleService) {
+    public UserRestController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
-    @PostMapping(value = "/admin/user", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestBody User user) {
         roleService.getByName(InitProps.ROLE_USER).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

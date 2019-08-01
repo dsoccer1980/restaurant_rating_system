@@ -11,10 +11,8 @@ import ru.dsoccer1980.repository.VoteRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -66,7 +64,10 @@ public class VoteServiceImpl implements VoteService {
 
     @Override
     public List<Vote> getVotesByUser(long userId) {
-        return voteRepository.findByUserId(userId);
+        return voteRepository.findByUserId(userId)
+                .stream()
+                .sorted(Comparator.comparing(Vote::getDate).reversed())
+                .collect(Collectors.toList());
     }
 
     @Override

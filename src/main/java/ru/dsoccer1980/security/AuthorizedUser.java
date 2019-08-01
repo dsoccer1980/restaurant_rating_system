@@ -1,4 +1,4 @@
-package ru.dsoccer1980.web;
+package ru.dsoccer1980.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

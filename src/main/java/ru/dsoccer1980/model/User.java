@@ -56,7 +56,7 @@ public class User implements UserDetails {
 
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     public User(@NotBlank @Size(min = 2, max = 100) String name,
