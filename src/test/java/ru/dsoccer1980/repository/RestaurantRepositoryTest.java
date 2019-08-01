@@ -1,47 +1,33 @@
 package ru.dsoccer1980.repository;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@ActiveProfiles("test")
-@ComponentScan({"ru.dsoccer1980.repository"})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class RestaurantRepositoryTest {
+public class RestaurantRepositoryTest extends AbstractDataJpaTest {
 
-    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.COMPANY);
-    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.COMPANY);
-    private final User NEW_USER = new User("new", "new@gmail.com", "password3", Role.COMPANY);
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", LocalDate.of(2019, 7, 31), Set.of(Role.COMPANY));
+    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", LocalDate.of(2019, 7, 31), Set.of(Role.COMPANY));
 
-    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
-    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
+    private final Restaurant RESTAURANT1 = new Restaurant(10L, "TSAR", "Nevskij 53", USER1);
+    private final Restaurant RESTAURANT2 = new Restaurant(11L, "Europe", "Mihailovskaja 14", USER2);
+
+    @Autowired
+    TestEntityManager testEntityManager;
+
     @Autowired
     private RestaurantRepository repository;
-    @Autowired
-    private UserRepository userRepository;
 
-    @BeforeEach
-    void beforeEach() {
-        userRepository.deleteAll();
-        userRepository.save(USER1);
-        userRepository.save(USER2);
-        repository.deleteAll();
-        repository.save(RESTAURANT1);
-        repository.save(RESTAURANT2);
-    }
 
     @Test
     void getAll() {
@@ -55,8 +41,8 @@ public class RestaurantRepositoryTest {
 
     @Test
     void create() {
-        userRepository.save(NEW_USER);
-        Restaurant newRestaurant = repository.save(new Restaurant("New", "Address", NEW_USER));
+        User newUser = testEntityManager.persist(new User("new", "new@gmail.com", "password3", Role.COMPANY));
+        Restaurant newRestaurant = repository.save(new Restaurant("New", "Address", newUser));
         assertThat(repository.findAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
     }
 

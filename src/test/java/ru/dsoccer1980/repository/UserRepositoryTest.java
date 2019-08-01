@@ -1,37 +1,23 @@
 package ru.dsoccer1980.repository;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
-@ActiveProfiles("test")
-@ComponentScan({"ru.dsoccer1980.repository"})
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserRepositoryTest {
+public class UserRepositoryTest extends AbstractDataJpaTest {
 
-    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.USER);
-    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.USER);
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", LocalDate.of(2019, 7, 31), Collections.emptySet());
+    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", LocalDate.of(2019, 7, 31), Collections.emptySet());
+
     @Autowired
     private UserRepository repository;
-
-    @BeforeEach
-    void beforeEach() {
-        repository.deleteAll();
-        repository.save(USER1);
-        repository.save(USER2);
-    }
 
     @Test
     void getAll() {
