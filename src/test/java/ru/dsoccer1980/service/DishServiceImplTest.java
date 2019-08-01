@@ -1,68 +1,35 @@
 package ru.dsoccer1980.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.model.Dish;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
-import ru.dsoccer1980.repository.DishRepository;
-import ru.dsoccer1980.repository.RestaurantRepository;
-import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
 @Transactional
-public class DishServiceImplTest {
+public class DishServiceImplTest extends AbstractServiceTest {
 
-    private final User USER1 = new User("Ivanov", "ivan@gmail.com", "password", Role.COMPANY);
-    private final User USER2 = new User("Petrov", "petr@gmail.com", "password2", Role.COMPANY);
-    private final Restaurant RESTAURANT1 = new Restaurant("TSAR", "Nevskij 53", USER1);
-    private final Restaurant RESTAURANT2 = new Restaurant("Europe", "Mihailovskaja 14", USER2);
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", LocalDate.of(2019, 7, 31), Set.of(Role.COMPANY));
+    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", LocalDate.of(2019, 7, 31), Set.of(Role.COMPANY));
+    private final Restaurant RESTAURANT1 = new Restaurant(10L, "TSAR", "Nevskij 53", USER1);
+    private final Restaurant RESTAURANT2 = new Restaurant(11L, "Europe", "Mihailovskaja 14", USER2);
 
-    private final Dish DISH1 = new Dish("Borsh", new BigDecimal(255.3), RESTAURANT1, LocalDate.of(2019, 7, 24));
-    private final Dish DISH2 = new Dish("Soljanka", new BigDecimal(235.3), RESTAURANT2, LocalDate.of(2019, 7, 23));
+    private final Dish DISH1 = new Dish(20L, "Borsh", new BigDecimal(255.3).setScale(2, RoundingMode.FLOOR), RESTAURANT1, LocalDate.of(2019, 7, 24));
+    private final Dish DISH2 = new Dish(21L, "Soljanka", new BigDecimal(235.3).setScale(2, RoundingMode.FLOOR), RESTAURANT2, LocalDate.of(2019, 7, 23));
 
-    @Autowired
-    private DishRepository dishRepository;
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-    @Autowired
-    private UserRepository userRepository;
     @Autowired
     private DishService dishService;
-
-
-    @BeforeEach
-    void beforeEach() {
-        userRepository.deleteAll();
-        userRepository.save(USER1);
-        userRepository.save(USER2);
-        restaurantRepository.deleteAll();
-        restaurantRepository.save(RESTAURANT1);
-        restaurantRepository.save(RESTAURANT2);
-        dishRepository.deleteAll();
-        dishRepository.save(DISH1);
-        dishRepository.save(DISH2);
-    }
 
     @Test
     void getAll() {

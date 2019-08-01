@@ -1,41 +1,26 @@
 package ru.dsoccer1980.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
-import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-@ActiveProfiles("test")
-class UserServiceImplTest {
+class UserServiceImplTest extends AbstractServiceTest {
 
-    private final User USER1 = new User("Ivanov", "ivan1@gmail.com", "password", Role.USER);
-    private final User USER2 = new User("Petrov", "petr1@gmail.com", "password2", Role.USER);
-    @Autowired
-    private UserRepository repository;
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", LocalDate.of(2019, 7, 31), Collections.emptySet());
+    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", LocalDate.of(2019, 7, 31), Collections.emptySet());
+
     @Autowired
     private UserService userService;
 
-    @BeforeEach
-    void beforeEach() {
-        repository.deleteAll();
-        repository.save(USER1);
-        repository.save(USER2);
-    }
 
     @Test
     void get() {
