@@ -77,12 +77,6 @@ public class DishServiceImplTest extends AbstractServiceTest {
     }
 
     @Test
-    void getDishByDate() {
-        Map<Restaurant, List<Dish>> result = dishService.getDishByDate(LocalDate.of(2019, 7, 24));
-        assertThat(result).isEqualTo(Map.of(RESTAURANT1, Collections.singletonList(DISH1)));
-    }
-
-    @Test
     void findDishByRestaurantIdAndDate() {
         List<Dish> result = dishService.getDishByRestaurantAndDate(RESTAURANT1.getId(), LocalDate.of(2019, 7, 24));
         assertThat(result).isEqualTo(Collections.singletonList(DISH1));

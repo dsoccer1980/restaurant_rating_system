@@ -9,7 +9,6 @@ import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -59,14 +58,6 @@ public class DishServiceImpl implements DishService {
     public List<Dish> getDishByRestaurantAndDate(long id, LocalDate date) {
         Objects.requireNonNull(date, "date must not be null");
         return repository.findDishByRestaurantIdAndDate(id, date);
-    }
-
-    @Override
-    public Map<Restaurant, List<Dish>> getDishByDate(LocalDate date) {
-        Objects.requireNonNull(date, "date must not be null");
-        return repository.findDishByDate(date)
-                .stream()
-                .collect(Collectors.groupingBy(Dish::getRestaurant));
     }
 
     @Override

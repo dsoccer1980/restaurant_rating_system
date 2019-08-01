@@ -6,7 +6,6 @@ import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public interface DishService {
@@ -22,8 +21,6 @@ public interface DishService {
     Dish update(Dish dish) throws NotFoundException;
 
     List<Dish> getDishByRestaurantAndDate(long id, LocalDate date);
-
-    Map<Restaurant, List<Dish>> getDishByDate(LocalDate date);
 
     Set<LocalDate> getDatesByRestaurant(long id);
 
