@@ -41,7 +41,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public void delete(long dishId) throws NotFoundException {
-        if (repository.delete(dishId) == 0) {
+        if (repository.deleteDishById(dishId) == 0) {
             throw new NotFoundException("Not found entity with id:" + dishId);
         }
     }

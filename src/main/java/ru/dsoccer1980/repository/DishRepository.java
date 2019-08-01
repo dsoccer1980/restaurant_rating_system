@@ -13,10 +13,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface DishRepository extends JpaRepository<Dish, Long> {
 
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM Dish u WHERE u.id=:id")
-    int delete(@Param("id") long id);
+    int deleteDishById(long id);
 
     List<Dish> findDishByRestaurantIdAndDate(Long id, LocalDate date);
 

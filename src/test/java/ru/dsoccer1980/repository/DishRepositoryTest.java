@@ -58,13 +58,13 @@ public class DishRepositoryTest extends AbstractDataJpaTest {
 
     @Test
     void delete() {
-        dishRepository.delete(DISH1.getId());
+        dishRepository.deleteDishById(DISH1.getId());
         assertThat(dishRepository.findAll()).isEqualTo(Collections.singletonList(DISH2));
     }
 
     @Test
     void deleteWithWrongId() {
-        assertThat(dishRepository.delete(-1)).isEqualTo(0);
+        assertThat(dishRepository.deleteDishById(-1)).isEqualTo(0);
         assertThat(dishRepository.findAll()).isEqualTo(Arrays.asList(DISH1, DISH2));
     }
 
