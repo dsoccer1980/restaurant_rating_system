@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.RoleRepository;
 import ru.dsoccer1980.repository.UserRepository;
+import ru.dsoccer1980.util.config.InitProps;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -36,7 +37,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return false;
         }
 
-        roleRepository.findByName("USER").ifPresent(role -> user.setRoles(Collections.singleton(role)));
+        roleRepository.findByName(InitProps.ROLE_USER).ifPresent(role -> user.setRoles(Collections.singleton(role)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 

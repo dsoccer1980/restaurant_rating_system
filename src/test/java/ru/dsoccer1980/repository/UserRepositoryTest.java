@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.util.config.InitProps;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class UserRepositoryTest extends AbstractDataJpaTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
-    private final Role ROLE_USER = new Role(41L, "USER");
+    private final Role ROLE_USER = new Role(41L, InitProps.ROLE_USER);
     private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Collections.emptySet());
     private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", registeredTime, Collections.emptySet());
 

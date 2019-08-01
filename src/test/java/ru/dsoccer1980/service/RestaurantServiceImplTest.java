@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.util.config.InitProps;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @AutoConfigureTestEntityManager
 class RestaurantServiceImplTest extends AbstractServiceTest {
 
-    private final Role ROLE_COMPANY = new Role(40L, "COMPANY");
+    private final Role ROLE_COMPANY = new Role(40L, InitProps.ROLE_COMPANY);
     private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password",
             LocalDateTime.of(2019, 7, 31, 0, 0, 0), Set.of(ROLE_COMPANY));
     private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2",

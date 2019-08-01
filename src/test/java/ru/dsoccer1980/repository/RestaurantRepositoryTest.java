@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.util.config.InitProps;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RestaurantRepositoryTest extends AbstractDataJpaTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
-    private final Role ROLE_COMPANY = new Role(40L, "COMPANY");
+    private final Role ROLE_COMPANY = new Role(40L, InitProps.ROLE_COMPANY);
     private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Set.of(ROLE_COMPANY));
     private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", registeredTime, Set.of(ROLE_COMPANY));
 

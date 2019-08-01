@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.service.RoleService;
 import ru.dsoccer1980.service.UserService;
+import ru.dsoccer1980.util.config.InitProps;
 
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class UserAdminController {
 
     @PostMapping(value = "/admin/user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> save(@RequestBody User user) {
-        roleService.getByName("USER").ifPresent(role -> user.setRoles(Set.of(role)));
+        roleService.getByName(InitProps.ROLE_USER).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.create(user);
         return ResponseEntity.ok().build();
