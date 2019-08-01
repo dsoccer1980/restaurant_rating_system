@@ -1,7 +1,6 @@
 package ru.dsoccer1980.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
@@ -50,10 +49,10 @@ public class User implements UserDetails {
     @Size(min = 5, max = 64)
     private String password;
 
-    @Column(name = "registered", columnDefinition = "timestamp default now()")
+    @Column(name = "registration_time", columnDefinition = "timestamp default now()")
     @NotNull
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDate registered = LocalDate.now();
+    private LocalDateTime registrationTime = LocalDateTime.now();
 
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

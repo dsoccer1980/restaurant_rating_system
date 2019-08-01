@@ -6,17 +6,19 @@ import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class UserServiceImplTest extends AbstractServiceTest {
 
-    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", LocalDate.of(2019, 7, 31), Collections.emptySet());
-    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", LocalDate.of(2019, 7, 31), Collections.emptySet());
+    private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Collections.emptySet());
+    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", registeredTime, Collections.emptySet());
 
     @Autowired
     private UserService userService;
@@ -43,7 +45,7 @@ class UserServiceImplTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        User newUser = userService.create(new User("new User", "new@gmail.com", "password3", Role.USER));
+        User newUser = userService.create(new User(3L, "new User", "new@gmail.com", "password3", registeredTime, Set.of(Role.USER)));
         assertThat(userService.getAll()).isEqualTo(Arrays.asList(USER1, USER2, newUser));
     }
 

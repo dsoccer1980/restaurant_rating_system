@@ -9,11 +9,11 @@ CREATE SEQUENCE GLOBAL_SEQ START WITH 100000;
 
 CREATE TABLE users
 (
-  id         BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
-  name       VARCHAR(255)                     NOT NULL,
-  email      VARCHAR(255)                     NOT NULL,
-  password   VARCHAR(255)                     NOT NULL,
-  registered TIMESTAMP          DEFAULT now() NOT NULL
+  id                BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
+  name              VARCHAR(255)                     NOT NULL,
+  email             VARCHAR(255)                     NOT NULL,
+  password          VARCHAR(255)                     NOT NULL,
+  registration_time TIMESTAMP          DEFAULT now() NOT NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
 CREATE UNIQUE INDEX users_unique_ename_idx ON users (name);
