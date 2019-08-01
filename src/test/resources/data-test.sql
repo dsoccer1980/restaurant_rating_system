@@ -1,7 +1,7 @@
 DELETE
-FROM users;
-DELETE
 FROM restaurant;
+DELETE
+FROM users;
 DELETE
 FROM dish;
 DELETE

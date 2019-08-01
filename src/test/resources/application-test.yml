@@ -1,19 +1,14 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/voting_testdb
-    username: postgres
-    password: postgres
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
     initialization-mode: always
+    username: sa
+    password:
+    schema: classpath:schema-test.sql
   jpa:
-    properties:
-      hibernate:
-        jdbc:
-          lob:
-            non_contextual_creation: true
-        format_sql: true
-        use_sql_comments: true
-        database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      use-new-id-generator-mappings: true
+      ddl-auto: none
+
 
