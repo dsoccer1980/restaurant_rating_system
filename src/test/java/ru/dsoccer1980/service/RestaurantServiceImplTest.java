@@ -21,11 +21,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @AutoConfigureTestEntityManager
 class RestaurantServiceImplTest extends AbstractServiceTest {
 
-    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", LocalDateTime.of(2019, 7, 31, 0, 0, 0), Set.of(Role.COMPANY));
-    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", LocalDateTime.of(2019, 7, 31, 0, 0, 0), Set.of(Role.COMPANY));
+    private final Role ROLE_COMPANY = new Role(40L, "COMPANY");
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password",
+            LocalDateTime.of(2019, 7, 31, 0, 0, 0), Set.of(ROLE_COMPANY));
+    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2",
+            LocalDateTime.of(2019, 7, 31, 0, 0, 0), Set.of(ROLE_COMPANY));
 
     private final Restaurant RESTAURANT1 = new Restaurant(10L, "TSAR", "Nevskij 53", USER1);
     private final Restaurant RESTAURANT2 = new Restaurant(11L, "Europe", "Mihailovskaja 14", USER2);
+
     @Autowired
     TestEntityManager testEntityManager;
     @Autowired
@@ -49,7 +53,7 @@ class RestaurantServiceImplTest extends AbstractServiceTest {
     @Test
     @Transactional
     void create() {
-        User newUser = testEntityManager.persist(new User("new", "new@gmail.com", "password3", Role.COMPANY));
+        User newUser = testEntityManager.persist(new User("new", "new@gmail.com", "password3", Set.of(ROLE_COMPANY)));
         Restaurant newRestaurant = service.create(new Restaurant("New", "Address", newUser));
         assertThat(service.getAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
     }

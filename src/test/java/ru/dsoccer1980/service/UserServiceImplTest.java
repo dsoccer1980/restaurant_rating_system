@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class UserServiceImplTest extends AbstractServiceTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
+    private final Role ROLE_USER = new Role(41L, "USER");
     private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Collections.emptySet());
     private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", registeredTime, Collections.emptySet());
 
@@ -45,7 +46,7 @@ class UserServiceImplTest extends AbstractServiceTest {
 
     @Test
     void create() {
-        User newUser = userService.create(new User(3L, "new User", "new@gmail.com", "password3", registeredTime, Set.of(Role.USER)));
+        User newUser = userService.create(new User(3L, "new User", "new@gmail.com", "password3", registeredTime, Set.of(ROLE_USER)));
         assertThat(userService.getAll()).isEqualTo(Arrays.asList(USER1, USER2, newUser));
     }
 

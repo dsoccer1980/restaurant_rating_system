@@ -4,8 +4,8 @@ package ru.dsoccer1980.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.BatchSize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.dsoccer1980.util.config.InitProps;
@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Set;
 
 
@@ -26,6 +25,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(exclude = {"roles"})
 public class User implements UserDetails {
 
     @Id
@@ -55,21 +55,18 @@ public class User implements UserDetails {
     private LocalDateTime registrationTime = LocalDateTime.now();
 
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    @ElementCollection(fetch = FetchType.EAGER)
-    @BatchSize(size = 200)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     public User(@NotBlank @Size(min = 2, max = 100) String name,
                 @Email @NotBlank @Size(max = 100) String email,
                 @NotBlank @Size(min = 5, max = 64) String password,
-                Role role,
-                Role... roles) {
+                Set<Role> roles) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.roles = EnumSet.of(role, roles);
+        this.roles = roles;
     }
 
     @Override

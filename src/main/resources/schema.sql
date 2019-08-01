@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS restaurant CASCADE;
 DROP TABLE IF EXISTS dish CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS role CASCADE;
 DROP TABLE IF EXISTS user_roles CASCADE;
 DROP TABLE IF EXISTS user_vote CASCADE;
 DROP SEQUENCE IF EXISTS GLOBAL_SEQ;
@@ -38,12 +39,20 @@ CREATE TABLE dish
 );
 CREATE UNIQUE INDEX dish_unique_idx ON dish (restaurant_id, date, name);
 
+CREATE TABLE role
+(
+  id   BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
+  name VARCHAR(255) NOT NULL
+);
+CREATE UNIQUE INDEX role_unique_name_idx ON role (name);
+
 CREATE TABLE user_roles
 (
   user_id BIGINT NOT NULL,
-  role    VARCHAR(255),
-  CONSTRAINT user_roles_idx UNIQUE (user_id, role),
-  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+  role_id BIGINT NOT NULL,
+  CONSTRAINT user_roles_idx UNIQUE (user_id, role_id),
+  FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+  FOREIGN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_vote

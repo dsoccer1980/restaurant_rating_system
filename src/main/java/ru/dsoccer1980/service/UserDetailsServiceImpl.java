@@ -6,17 +6,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.repository.RoleRepository;
 import ru.dsoccer1980.repository.UserRepository;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -33,34 +36,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             return false;
         }
 
-        user.setRoles(Collections.singleton(Role.USER));
+        roleRepository.findByName("USER").ifPresent(role -> user.setRoles(Collections.singleton(role)));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         return true;
     }
 
-
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public void saveUser(User user, String username, Map<String, String> form) {
-        user.setName(username);
-
-        Set<String> roles = Arrays.stream(Role.values())
-                .map(Role::name)
-                .collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()) {
-            if (roles.contains(key)) {
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
-
-        userRepository.save(user);
-    }
 
 }

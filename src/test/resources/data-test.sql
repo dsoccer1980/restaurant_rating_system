@@ -5,6 +5,8 @@ FROM users;
 DELETE
 FROM dish;
 DELETE
+FROM role;
+DELETE
 FROM user_vote;
 
 
@@ -22,6 +24,11 @@ INSERT INTO dish
 values (20, 'Borsh', 255.3, 10, '2019-07-24');
 INSERT INTO dish
 values (21, 'Soljanka', 235.3, 11, '2019-07-23');
+
+INSERT INTO role
+values (40, 'COMPANY');
+INSERT INTO role
+values (41, 'USER');
 
 INSERT INTO user_vote
 values (30, 1, 10, '2019-07-24');
