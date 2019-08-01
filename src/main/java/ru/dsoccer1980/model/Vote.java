@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@NamedEntityGraph(name = "voteGraph", includeAllAttributes = true)
 public class Vote {
 
     @Id
