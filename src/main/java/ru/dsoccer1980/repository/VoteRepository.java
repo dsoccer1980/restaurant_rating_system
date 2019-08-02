@@ -23,5 +23,5 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     @EntityGraph("voteGraph")
     List<Vote> findByDate(LocalDate date);
 
-    Optional<Vote> findByUserIdAndDate(@Param("userId") long userId, @Param("date") LocalDate date);
+    Optional<Vote> findByUserIdAndDate(long userId, LocalDate date);
 }
