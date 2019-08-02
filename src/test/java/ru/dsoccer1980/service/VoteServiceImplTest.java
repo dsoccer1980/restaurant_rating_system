@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @Transactional
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
@@ -56,6 +57,12 @@ public class VoteServiceImplTest extends AbstractServiceTest {
         voteService.delete(USER1.getId(), DATE1);
         List<Vote> votes = voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
         assertThat(votes).isEqualTo(Collections.singletonList(VOTE2));
+    }
+
+    @Test
+    public void deleteWithWrongData() {
+        boolean delete = voteService.delete(-1, LocalDate.of(1000, 1, 1));
+        assertFalse(delete);
     }
 
     @Test

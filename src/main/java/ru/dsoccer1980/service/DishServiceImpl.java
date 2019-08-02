@@ -29,11 +29,6 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public List<Dish> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public Dish create(Dish dish) {
         Objects.requireNonNull(dish, "dish must not be null");
         return repository.save(dish);
@@ -61,8 +56,12 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public Set<LocalDate> getDatesByRestaurant(long id) {
-        return repository.findDishByRestaurantId(id).stream().map(Dish::getDate).collect(Collectors.toSet());
+    public List<LocalDate> getDatesByRestaurant(long id) {
+        return repository.findDishByRestaurantId(id).stream()
+                .map(Dish::getDate)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     @Override

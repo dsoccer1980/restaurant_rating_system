@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class VoteRepositoryTest extends AbstractDataJpaTest {
 
@@ -56,8 +58,15 @@ public class VoteRepositoryTest extends AbstractDataJpaTest {
 
     @Test
     void delete() {
-        voteRepository.delete(VOTE1);
+        int result = voteRepository.deleteByUserIdAndDate(USER1.getId(), VOTE1.getDate());
+        assertTrue(result != 0);
         assertThat(voteRepository.findAll()).isEqualTo(Arrays.asList(VOTE2, VOTE3));
+    }
+
+    @Test
+    void deleteWithWrongData() {
+        int result = voteRepository.deleteByUserIdAndDate(-1, LocalDate.now());
+        assertEquals(0, result);
     }
 
 

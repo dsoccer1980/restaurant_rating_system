@@ -50,7 +50,7 @@ public class DishRestController {
     }
 
     @GetMapping(value = "/company/dish/date")
-    public Set<LocalDate> getDatesByRestaurant() {
+    public List<LocalDate> getDatesByRestaurant() {
         return dishService.getDatesByRestaurant(getRestaurantId());
     }
 

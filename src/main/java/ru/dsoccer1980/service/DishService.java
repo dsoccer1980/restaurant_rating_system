@@ -12,8 +12,6 @@ public interface DishService {
 
     Dish get(long id) throws NotFoundException;
 
-    List<Dish> getAll();
-
     Dish create(Dish dish);
 
     void delete(long dishId) throws NotFoundException;
@@ -22,7 +20,7 @@ public interface DishService {
 
     List<Dish> getDishByRestaurantAndDate(long id, LocalDate date);
 
-    Set<LocalDate> getDatesByRestaurant(long id);
+    List<LocalDate> getDatesByRestaurant(long id);
 
     Set<Restaurant> getRestaurantsIntroducedTodayMenu();
 }

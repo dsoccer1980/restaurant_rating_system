@@ -18,17 +18,12 @@ import ru.dsoccer1980.service.UserDetailsServiceImpl;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthResponseAuthEntryPoint;
-    private final UserDetailsServiceImpl userDetailsService;
-    private final JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
-
-    public JWTWebSecurityConfig(JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthResponseAuthEntryPoint,
-                                UserDetailsServiceImpl userDetailsService,
-                                JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter) {
-        this.jwtUnAuthResponseAuthEntryPoint = jwtUnAuthResponseAuthEntryPoint;
-        this.userDetailsService = userDetailsService;
-        this.jwtAuthenticationTokenFilter = jwtAuthenticationTokenFilter;
-    }
+    @Autowired
+    private JwtUnAuthorizedResponseAuthenticationEntryPoint jwtUnAuthResponseAuthEntryPoint;
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+    @Autowired
+    private JwtTokenAuthorizationOncePerRequestFilter jwtAuthenticationTokenFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

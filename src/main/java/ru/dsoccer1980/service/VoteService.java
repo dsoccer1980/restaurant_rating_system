@@ -13,8 +13,6 @@ public interface VoteService {
 
     Vote save(long userId, long restaurantId, LocalDate date);
 
-    Vote save(Vote vote);
-
     boolean delete(long userId, LocalDate date);
 
     List<Vote> getVotesByRestaurantAndDate(long id, LocalDate date);

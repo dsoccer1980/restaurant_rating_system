@@ -12,8 +12,6 @@ import ru.dsoccer1980.util.config.InitProps;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,16 +45,11 @@ class RestaurantServiceImplTest extends AbstractServiceTest {
     }
 
     @Test
-    void getAll() {
-        assertThat(service.getAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2));
-    }
-
-    @Test
     @Transactional
     void create() {
         User newUser = testEntityManager.persist(new User("new", "new@gmail.com", "password3", Set.of(ROLE_COMPANY)));
         Restaurant newRestaurant = service.create(new Restaurant("New", "Address", newUser));
-        assertThat(service.getAll()).isEqualTo(Arrays.asList(RESTAURANT1, RESTAURANT2, newRestaurant));
+        assertThat(service.get(newRestaurant.getId())).isEqualTo(newRestaurant);
     }
 
     @Test
@@ -71,11 +64,17 @@ class RestaurantServiceImplTest extends AbstractServiceTest {
     @Test
     void delete() {
         service.delete(RESTAURANT1.getId());
-        assertThat(service.getAll()).isEqualTo(Collections.singletonList(RESTAURANT2));
+        assertThrows(NotFoundException.class, () -> service.get(RESTAURANT1.getId()));
     }
 
     @Test
     void deleteWithWrongId() {
         assertThrows(NotFoundException.class, () -> service.delete(-1));
+    }
+
+    @Test
+    void getRestaurantByUserId() {
+        Restaurant restaurant = service.getRestaurantByUserId(USER1.getId());
+        assertThat(restaurant).isEqualTo(RESTAURANT1);
     }
 }

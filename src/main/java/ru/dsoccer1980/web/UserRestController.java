@@ -27,8 +27,16 @@ public class UserRestController {
     }
 
     @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> save(@RequestBody User user) {
+    public ResponseEntity<?> saveUser(@RequestBody User user) {
         roleService.getByName(InitProps.ROLE_USER).ifPresent(role -> user.setRoles(Set.of(role)));
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        userService.create(user);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/company", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> saveCompany(@RequestBody User user) {
+        roleService.getByName(InitProps.ROLE_COMPANY).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.create(user);
         return ResponseEntity.ok().build();

@@ -25,11 +25,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<Restaurant> getAll() {
-        return repository.findAll();
-    }
-
-    @Override
     public Restaurant create(Restaurant restaurant) {
         Objects.requireNonNull(restaurant, "restaurant must not be null");
         return repository.save(restaurant);
