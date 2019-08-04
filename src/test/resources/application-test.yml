@@ -6,6 +6,7 @@ spring:
     username: sa
     password:
     schema: classpath:schema-test.sql
+    data: classpath:data-test.sql
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
