@@ -4,12 +4,14 @@ package ru.dsoccer1980.web;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Vote;
 import ru.dsoccer1980.service.VoteService;
 import ru.dsoccer1980.security.AuthorizedUser;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -35,5 +37,18 @@ public class VoteRestController {
         long userId = AuthorizedUser.get().getId();
         return voteService.getVotesByUser(userId);
     }
+
+    @GetMapping(value = "/vote/date")
+    public List<LocalDate> getDatesOfVotes() {
+        return voteService.getDatesOfVotes();
+    }
+
+    @GetMapping(value = "/vote/date/{date}")
+    public Map<String, Long> getRestaurantVotesAmountByDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return voteService.getRestaurantVotesAmountByDate(date);
+
+    }
+
+
 
 }

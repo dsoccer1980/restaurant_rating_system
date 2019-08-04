@@ -2,7 +2,7 @@ package ru.dsoccer1980.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.dsoccer1980.model.Vote;
 
@@ -24,4 +24,7 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     List<Vote> findByDate(LocalDate date);
 
     Optional<Vote> findByUserIdAndDate(long userId, LocalDate date);
+
+    @Query(value = "SELECT v.date FROM Vote v GROUP BY v.date ORDER BY v.date DESC")
+    List<LocalDate> findDatesOfVotes();
 }

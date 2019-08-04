@@ -60,16 +60,21 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Map<Restaurant, Long> getRestaurantVotesAmountByDate(LocalDate date) {
+    public Map<String, Long> getRestaurantVotesAmountByDate(LocalDate date) {
         List<Vote> votes = voteRepository.findByDate(date);
-        Map<Restaurant, Long> map = new HashMap<>();
-        votes.forEach(vote -> map.merge(vote.getRestaurant(), 1L, (k, v) -> v + 1));
+        Map<String, Long> map = new HashMap<>();
+        votes.forEach(vote -> map.merge(vote.getRestaurant().getName(), 1L, (k, v) -> v + 1));
         return map;
     }
 
     @Override
     public Vote get(long userId, LocalDate date) {
         return voteRepository.findByUserIdAndDate(userId, date).orElse(null);
+    }
+
+    @Override
+    public List<LocalDate> getDatesOfVotes() {
+        return voteRepository.findDatesOfVotes();
     }
 
 }

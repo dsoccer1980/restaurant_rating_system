@@ -1,7 +1,6 @@
 package ru.dsoccer1980.service;
 
 
-import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Vote;
 
 import java.time.LocalDate;
@@ -19,7 +18,9 @@ public interface VoteService {
 
     List<Vote> getVotesByUser(long userId);
 
-    Map<Restaurant, Long> getRestaurantVotesAmountByDate(LocalDate date);
+    Map<String, Long> getRestaurantVotesAmountByDate(LocalDate date);
 
     Vote get(long userId, LocalDate date);
+
+    List<LocalDate> getDatesOfVotes();
 }

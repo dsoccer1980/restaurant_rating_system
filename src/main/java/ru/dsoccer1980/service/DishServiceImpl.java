@@ -57,11 +57,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<LocalDate> getDatesByRestaurant(long id) {
-        return repository.findDishByRestaurantId(id).stream()
-                .map(Dish::getDate)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
+        return repository.findDatesByRestaurantId(id);
     }
 
     @Override

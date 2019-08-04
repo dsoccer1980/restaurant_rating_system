@@ -85,8 +85,8 @@ public class VoteServiceImplTest extends AbstractServiceTest {
 
     @Test
     public void getVotesAmountForRestaurantsByDate() {
-        Map<Restaurant, Long> votesAmount = voteService.getRestaurantVotesAmountByDate(DATE1);
-        assertThat(votesAmount).isEqualTo(Map.of(RESTAURANT1, 2L));
+        Map<String, Long> votesAmount = voteService.getRestaurantVotesAmountByDate(DATE1);
+        assertThat(votesAmount).isEqualTo(Map.of(RESTAURANT1.getName(), 2L));
     }
 
 }
