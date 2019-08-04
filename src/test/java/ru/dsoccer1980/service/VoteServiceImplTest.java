@@ -1,26 +1,29 @@
 package ru.dsoccer1980.service;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.repository.RestaurantRepository;
+import ru.dsoccer1980.repository.UserRepository;
+import ru.dsoccer1980.repository.VoteRepository;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
-@Transactional
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@ExtendWith(SpringExtension.class)
+@Import({VoteServiceImpl.class})
 public class VoteServiceImplTest extends AbstractServiceTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
@@ -36,57 +39,64 @@ public class VoteServiceImplTest extends AbstractServiceTest {
     @Autowired
     private VoteService voteService;
 
+    @MockBean
+    private VoteRepository voteRepository;
+    @MockBean
+    private UserRepository userRepository;
+    @MockBean
+    private RestaurantRepository restaurantRepository;
+
     @Test
-    public void save() {
-        LocalDate date = LocalDate.now().plusDays(1);
-        Vote vote = voteService.save(USER1.getId(), RESTAURANT1.getId(), date);
-        assertThat(voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), date)).isEqualTo(Collections.singletonList(vote));
+    void save() {
+        when(userRepository.findById(USER1.getId())).thenReturn(Optional.of(USER1));
+        when(restaurantRepository.findById(RESTAURANT1.getId())).thenReturn(Optional.of(RESTAURANT1));
+        when(voteRepository.findByUserIdAndDate(USER1.getId(), LocalDate.now().plusDays(1))).thenReturn(Optional.of(VOTE1));
+        when(voteRepository.save(VOTE1)).thenReturn(VOTE1);
+
+        assertThat(voteService.save(USER1.getId(), RESTAURANT1.getId(), LocalDate.now().plusDays(1))).isEqualTo(VOTE1);
+
     }
 
     @Test
-    @DisplayName("User changed his mind and voted for other restaurant")
-    public void save2() {
-        LocalDate date = LocalDate.now().plusDays(1);
-        voteService.save(USER1.getId(), RESTAURANT1.getId(), date);
-        Vote changedVote = voteService.save(USER1.getId(), RESTAURANT2.getId(), date);
-        assertThat(voteService.getVotesByRestaurantAndDate(RESTAURANT2.getId(), date)).isEqualTo(Collections.singletonList(changedVote));
+    void delete() {
+        when(voteRepository.deleteByUserIdAndDate(USER1.getId(), DATE1)).thenReturn(1);
+
+        assertTrue(voteService.delete(USER1.getId(), DATE1));
     }
 
     @Test
-    public void delete() {
-        voteService.delete(USER1.getId(), DATE1);
-        List<Vote> votes = voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
-        assertThat(votes).isEqualTo(Collections.singletonList(VOTE2));
+    void deleteWithWrongData() {
+        when(voteRepository.deleteByUserIdAndDate(-1, DATE1)).thenReturn(0);
+
+        assertFalse(voteService.delete(USER1.getId(), DATE1));
     }
 
     @Test
-    public void deleteWithWrongData() {
-        boolean delete = voteService.delete(-1, LocalDate.of(1000, 1, 1));
-        assertFalse(delete);
+    void getVotesByRestaurantAndByDate() {
+        when(voteRepository.findByRestaurantIdAndDate(RESTAURANT1.getId(), DATE1)).thenReturn(Arrays.asList(VOTE1, VOTE2));
+
+        assertThat(voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1)).isEqualTo(Arrays.asList(VOTE1, VOTE2));
     }
 
     @Test
-    public void getVotesByRestaurantAndByDate() {
-        List<Vote> votes = voteService.getVotesByRestaurantAndDate(RESTAURANT1.getId(), DATE1);
-        assertThat(votes).isEqualTo(Arrays.asList(VOTE1, VOTE2));
+    void getVotesByUserId() {
+        when(voteRepository.findByUserId(USER1.getId())).thenReturn(Collections.singletonList(VOTE1));
+
+        assertThat(voteService.getVotesByUser(USER1.getId())).isEqualTo(Collections.singletonList(VOTE1));
     }
 
     @Test
-    public void getVotesByUserId() {
-        List<Vote> votes = voteService.getVotesByUser(USER1.getId());
-        assertThat(votes).isEqualTo(Collections.singletonList(VOTE1));
+    void getVotesByUserIdAndDate() {
+        when(voteRepository.findByUserIdAndDate(USER1.getId(), DATE1)).thenReturn(Optional.of(VOTE1));
+
+        assertThat(voteService.get(USER1.getId(), DATE1)).isEqualTo(VOTE1);
     }
 
     @Test
-    public void getVotesByUserIdAndDate() {
-        Vote vote = voteService.get(USER1.getId(), DATE1);
-        assertThat(vote).isEqualTo(VOTE1);
-    }
+    void getVotesAmountForRestaurantsByDate() {
+        when(voteRepository.findByDate(DATE1)).thenReturn(List.of(VOTE1, VOTE2));
 
-    @Test
-    public void getVotesAmountForRestaurantsByDate() {
-        Map<String, Long> votesAmount = voteService.getRestaurantVotesAmountByDate(DATE1);
-        assertThat(votesAmount).isEqualTo(Map.of(RESTAURANT1.getName(), 2L));
+        assertThat(voteService.getRestaurantVotesAmountByDate(DATE1)).isEqualTo(Map.of(RESTAURANT1.getName(), 2L));
     }
 
 }
