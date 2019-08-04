@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @Import({VoteServiceImpl.class})
-public class VoteServiceImplTest extends AbstractServiceTest {
+public class VoteServiceImplTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
     private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Collections.emptySet());
