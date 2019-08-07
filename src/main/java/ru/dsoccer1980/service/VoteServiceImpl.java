@@ -68,8 +68,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Vote get(long userId, LocalDate date) {
-        return voteRepository.findByUserIdAndDate(userId, date).orElse(null);
+    public Optional<Vote> getByUserIdAndDate(long userId, LocalDate date) {
+        return voteRepository.findByUserIdAndDate(userId, date);
     }
 
     @Override

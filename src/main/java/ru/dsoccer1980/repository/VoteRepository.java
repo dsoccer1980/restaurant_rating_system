@@ -13,6 +13,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Long> {
 
+    @Transactional
     int deleteByUserIdAndDate(long userId, LocalDate date);
 
     List<Vote> findByRestaurantIdAndDate(long id, LocalDate date);

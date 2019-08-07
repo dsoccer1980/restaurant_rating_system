@@ -89,7 +89,7 @@ public class VoteServiceImplTest {
     void getVotesByUserIdAndDate() {
         when(voteRepository.findByUserIdAndDate(USER1.getId(), DATE1)).thenReturn(Optional.of(VOTE1));
 
-        assertThat(voteService.get(USER1.getId(), DATE1)).isEqualTo(VOTE1);
+        assertThat(voteService.getByUserIdAndDate(USER1.getId(), DATE1)).isEqualTo(VOTE1);
     }
 
     @Test
