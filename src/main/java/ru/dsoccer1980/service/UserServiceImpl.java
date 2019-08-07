@@ -1,7 +1,9 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.dsoccer1980.dto.UserDto;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
@@ -53,6 +55,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    @Override
+    public void update(long userId, UserDto userDto) {
+        Objects.requireNonNull(userDto, "user must not be null");
+        User userFromDb = repository.findById(userId).orElseThrow(() -> new NotFoundException("user id not found"));
+        userFromDb.setName(userDto.getName());
+        if (!userFromDb.getPassword().equals(userDto.getPassword())) {
+            userFromDb.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        }
+        userFromDb.setEmail(userDto.getEmail());
+        repository.save(userFromDb);
+
     }
 
 }

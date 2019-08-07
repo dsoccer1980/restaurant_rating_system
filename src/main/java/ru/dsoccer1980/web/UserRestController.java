@@ -3,11 +3,10 @@ package ru.dsoccer1980.web;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.dsoccer1980.dto.UserDto;
 import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.RoleService;
 import ru.dsoccer1980.service.UserService;
 import ru.dsoccer1980.util.config.InitProps;
@@ -32,6 +31,18 @@ public class UserRestController {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.create(user);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> updateUser(@RequestBody UserDto userDto) {
+        long userId = AuthorizedUser.get().getId();
+        userService.update(userId, userDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/user")
+    public UserDto getUserProfile() {
+        return UserDto.getUserDto(userService.get(AuthorizedUser.get().getId()));
     }
 
     @PostMapping(value = "/company", consumes = MediaType.APPLICATION_JSON_VALUE)
