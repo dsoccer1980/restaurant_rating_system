@@ -77,7 +77,7 @@ public class DishRestController {
 
     private long getRestaurantId() {
         long userId = AuthorizedUser.get().getId();
-        return restaurantService.getRestaurantByUserId(userId).getId();
+        return restaurantService.getRestaurantByUserId(userId).orElse(null).getId();
     }
 
 }

@@ -21,6 +21,12 @@ public class AuthorizedUser {
             return null;
         }
         Object principal = auth.getPrincipal();
+
+        if (principal instanceof org.springframework.security.core.userdetails.User) {
+            org.springframework.security.core.userdetails.User u = (org.springframework.security.core.userdetails.User) principal;
+            return new User(-1L, u.getUsername(), null, u.getPassword(), null, null);
+        }
+
         return (principal instanceof User) ? (User) principal : null;
     }
 
