@@ -87,7 +87,7 @@ class RestaurantServiceImplTest {
 
     @Test
     void getRestaurantByUserId() {
-        when(restaurantRepository.findRestaurantByUserId(USER1.getId())).thenReturn(RESTAURANT1);
+        when(restaurantRepository.findRestaurantByUserId(USER1.getId())).thenReturn(Optional.of(RESTAURANT1));
 
         assertThat(service.getRestaurantByUserId(USER1.getId())).isEqualTo(RESTAURANT1);
     }
