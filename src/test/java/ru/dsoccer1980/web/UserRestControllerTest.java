@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.dsoccer1980.integration.MessageGateway;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.service.RoleService;
 import ru.dsoccer1980.service.UserService;
@@ -14,7 +15,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({UserRestController.class})
-@MockBean(classes = {UserService.class, RoleService.class, UserRepository.class})
+@MockBean(classes = {UserService.class, RoleService.class, UserRepository.class, MessageGateway.class})
 class UserRestControllerTest extends AbstractControllerTest {
 
     @Autowired

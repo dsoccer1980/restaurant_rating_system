@@ -61,9 +61,9 @@ public class VoteRestController {
     }
 
     @DeleteMapping(value = "/user/vote")
-    public void deleteVote() {
+    public boolean deleteVote() {
         long userId = AuthorizedUser.get().getId();
-        voteService.delete(userId, LocalDate.now());
+        return voteService.delete(userId, LocalDate.now());
     }
 
 
