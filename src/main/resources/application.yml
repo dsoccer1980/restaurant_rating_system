@@ -32,4 +32,4 @@ jwt:
   token:
     expiration:
       in:
-        seconds: 604800
+        seconds: 3600
