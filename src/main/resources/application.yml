@@ -16,6 +16,15 @@ spring:
     show-sql: true
     hibernate:
       use-new-id-generator-mappings: true
+  mail:
+    default-encoding: UTF-8
+    host: smtp.mailtrap.io
+    port: 2525
+    username: 89d17056c6d584
+    password: b354da79cd81e4
+
+
+
 logging:
   level:
     org:

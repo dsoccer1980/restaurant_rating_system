@@ -1,10 +1,12 @@
 package ru.dsoccer1980.web;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.dsoccer1980.dto.UserDto;
+import ru.dsoccer1980.integration.MessageGateway;
 import ru.dsoccer1980.model.User;
 import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.RoleService;
@@ -14,22 +16,20 @@ import ru.dsoccer1980.util.config.InitProps;
 import java.util.Set;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestController {
 
     private final UserService userService;
     private final RoleService roleService;
-
-    public UserRestController(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
-    }
+    private final MessageGateway messageGateway;
 
     @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         roleService.getByName(InitProps.ROLE_USER).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.create(user);
+        messageGateway.process(user);
         return ResponseEntity.ok().build();
     }
 
@@ -50,6 +50,7 @@ public class UserRestController {
         roleService.getByName(InitProps.ROLE_COMPANY).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.create(user);
+        messageGateway.process(user);
         return ResponseEntity.ok().build();
     }
 }
