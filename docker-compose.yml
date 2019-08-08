@@ -25,3 +25,12 @@ services:
       SPRING_DATA_URI: jdbc:postgresql://db:5432/voting_db
     depends_on:
       - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./DockerfileFrontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
