@@ -32,5 +32,7 @@ services:
       dockerfile: ./DockerfileFrontend
     ports:
       - 3000:3000
+    environment:
+      REACT_APP_SERVER_URL: http://localhost:8080
     depends_on:
       - backend

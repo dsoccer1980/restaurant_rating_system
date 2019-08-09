@@ -6,6 +6,8 @@ WORKDIR /usr/src/app
 ADD $DIR/package.json ./
 ADD $DIR/webpack.config.js ./
 
+ENV REACT_APP_SERVER_URL $REACT_APP_SERVER_URL
+
 RUN npm i
 
 ADD $DIR/public/ ./public
