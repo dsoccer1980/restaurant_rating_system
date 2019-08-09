@@ -78,15 +78,6 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithMockUser(username = "company", authorities = {"ROLE_COMPANY"})
-    void hasUserRestaurantWithCompany() throws Exception {
-        given(restaurantService.getRestaurantByUserId(-1L)).willReturn(Optional.of(new Restaurant(100L, "name", "address", null)));
-
-        mvc.perform(get("/company/user/restaurant"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
-    @WithMockUser(username = "company", authorities = {"ROLE_COMPANY"})
     void hasUserRestaurantWithCompanyDoesntHas() throws Exception {
         given(restaurantService.getRestaurantByUserId(-1L)).willReturn(Optional.empty());
 
