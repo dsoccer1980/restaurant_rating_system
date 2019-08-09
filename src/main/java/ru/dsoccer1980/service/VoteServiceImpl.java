@@ -64,7 +64,10 @@ public class VoteServiceImpl implements VoteService {
         List<Vote> votes = voteRepository.findByDate(date);
         Map<String, Long> map = new HashMap<>();
         votes.forEach(vote -> map.merge(vote.getRestaurant().getName(), 1L, (k, v) -> v + 1));
-        return map;
+
+        return map.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
     }
 
     @Override
