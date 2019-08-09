@@ -34,11 +34,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
     private final Role ROLE_COMPANY = new Role(40L, InitProps.ROLE_COMPANY);
     private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Set.of(ROLE_COMPANY));
-    private final User USER2 = new User(2L, "Petrov", "petr@gmail.com", "password2", registeredTime, Set.of(ROLE_COMPANY));
     private final Restaurant RESTAURANT1 = new Restaurant(10L, "TSAR", "Nevskij 53", USER1);
-    private final Restaurant RESTAURANT2 = new Restaurant(11L, "Europe", "Mihailovskaja 14", USER2);
-    private final Dish DISH1 = new Dish("Borsh", new BigDecimal(255.3).setScale(2, RoundingMode.FLOOR), RESTAURANT1, LocalDate.now());
-    private final Dish DISH2 = new Dish(21L, "Soljanka", new BigDecimal(235.3).setScale(2, RoundingMode.FLOOR), RESTAURANT2, LocalDate.of(2019, 7, 23));
 
     @Autowired
     private MockMvc mvc;
