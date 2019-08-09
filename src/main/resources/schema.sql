@@ -32,7 +32,7 @@ CREATE TABLE dish
 (
   id            BIGINT PRIMARY KEY DEFAULT nextval('global_seq'),
   name          VARCHAR(255)                            NOT NULL,
-  price         NUMERIC(5, 2)                           NOT NULL,
+  price         NUMERIC(7, 2)                           NOT NULL,
   restaurant_id INTEGER                                 NOT NULL,
   date          DATE               DEFAULT current_date NOT NULL,
   FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
