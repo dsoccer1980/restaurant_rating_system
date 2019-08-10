@@ -7,7 +7,6 @@ import EditDish from './components/company/EditDish';
 import DeleteDish from './components/company/DeleteDish';
 import ViewDatesOfDishes from './components/company/ViewDatesOfDishes';
 import ListRestaurantToday from './components/user/ListRestaurantToday';
-import Vote from './components/user/Vote';
 import Login from './components/authentication/Login';
 import AuthenticatedRoute from './components/authentication/AuthenticatedRoute';
 import SignUpUser from './components/signup/SignUpUser';
@@ -35,7 +34,6 @@ class App extends Component {
             <AuthenticatedRoute path='/dish/edit/:id' component={EditDish} />
             <AuthenticatedRoute path='/dish/delete/:id' component={DeleteDish} />
             <AuthenticatedRoute path='/restaurants/view' exact component={ListRestaurantToday} />
-            <AuthenticatedRoute path='/vote/restaurant/:id/date/:date' component={Vote} />
             <Route path="/login" exact component={Login} />
             <Route path="/signUpUser" exact component={SignUpUser} />
             <Route path="/signUpCompany" exact component={SignUpCompany} />

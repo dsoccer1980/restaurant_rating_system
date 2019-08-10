@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from "axios";
 import { API_URL } from '../Const';
 import RestaurantMenu from './RestaurantMenu';
@@ -45,16 +44,24 @@ export default class ListRestaurantToday extends Component {
         });
     }
 
-    onClickCancel = (id) => {
+    onClickCancel = () => {
         AuthenticationService.setupAxiosInterceptors();
         axios.delete(`${API_URL}/user/vote`)
-        .then(response => {
-            this.setState({ votedRestaurantId: -1 });
-        })
+            .then(response => {
+                this.setState({ votedRestaurantId: -1 });
+            })
+    }
+
+    onClickVote = (id) => {
+        AuthenticationService.setupAxiosInterceptors();
+        axios.post(`${API_URL}/user/vote/restaurant/${id}/date/${this.state.currentDate}`)
+            .then(response => {
+              this.setState({ votedRestaurantId: response.data });
+            });
+            this.refreshState();
     }
 
     tabRow() {
-        const { currentDate } = this.state
 
         return this.state.restaurants.map(function (object, i) {
             return (
@@ -64,11 +71,11 @@ export default class ListRestaurantToday extends Component {
                             onClick={this.onClickDate.bind(this, object.id)}><b>{object.name}</b>&nbsp;({object.address})</li>
                     </div>
                     <div className="col-md-6">
-                        {+this.state.votedRestaurantId === +object.id ? 
-                         <div>  <span className="btn btn-success">Voted</span> &nbsp;&nbsp;&nbsp;
+                        {+this.state.votedRestaurantId === +object.id ?
+                            <div>  <span className="btn btn-success">Voted</span> &nbsp;&nbsp;&nbsp;
                           <button className="btn btn-danger" onClick={this.onClickCancel}>Cancel</button>
-                          </div> :
-                            <Link to={`/vote/restaurant/${object.id}/date/${currentDate}`} className="btn btn-primary">Vote</Link>
+                            </div> :
+                            <button onClick={this.onClickVote.bind(this, object.id)} className="btn btn-primary">Vote</button>
                         }
                     </div>
                 </div>
@@ -84,20 +91,20 @@ export default class ListRestaurantToday extends Component {
 
         return (
             <div>
-                <div><br/><br/></div> 
+                <div><br /><br /></div>
                 {this.state.restaurants.length === 0 && <p>Nobody has yet offered menu today.</p>}
                 {this.state.restaurants.length !== 0 && <p>Restaurants, who offer menu today. Choose a restaurant to view its menu.</p>}
-                
+
                 <ul className="list-group">
                     {this.tabRow()}
                 </ul>
 
-                <div><br/><br/><br/><br/></div> 
+                <div><br /><br /><br /><br /></div>
 
                 {this.state.restaurantId !== -1 &&
                     <RestaurantMenu currentDate={this.state.currentDate} restaurantId={this.state.restaurantId} refresh={this.state.refreshState} />
                 }
-                <div><br/><br/><br/><br/></div> 
+                <div><br /><br /><br /><br /></div>
                 <ViewUserVotes />
             </div>
         );

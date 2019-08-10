@@ -38,7 +38,7 @@ export default class ViewUserVotes extends Component {
                     </tr>
                 )
             } else {
-                return (<tr></tr>);
+                return (<tr key='10000'></tr>);
             }
         }, this);
     }

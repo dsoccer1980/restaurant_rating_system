@@ -83,7 +83,7 @@ export default class SignUpUser extends React.Component {
 
         return (
             <div>
-              User signUp
+              <h4>User signUp</h4>
                 <form className='form-horizontal'>
                     <div className='form-group'>
                         <div className='col-sm-10'>
@@ -127,7 +127,7 @@ export default class SignUpUser extends React.Component {
                     <div className='form-group'>
                         <div className='col-sm-10'>
                             <button
-                                className='btn btn-default submit_login'
+                                className='btn btn-primary submit_login'
                                 onClick={this.handleSubmit}
                                 disabled={!this.validate()}>
                                 Add
