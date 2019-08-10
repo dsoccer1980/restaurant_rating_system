@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { API_URL } from '../Const'
 import axios from 'axios';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class ProfileRestaurant extends Component  {
     state = {
@@ -24,6 +25,7 @@ export default class ProfileRestaurant extends Component  {
     };
     
     saveRestaurant = (restaurant) => {
+        AuthenticationService.setupAxiosInterceptors();
         axios.post(`${API_URL}/company/restaurant`, JSON.stringify(restaurant), {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
@@ -38,6 +40,7 @@ export default class ProfileRestaurant extends Component  {
         const {name, address} = this.state;
         const restaurant = {name, address};
 
+        AuthenticationService.setupAxiosInterceptors();
         axios.post(`${API_URL}/company/restaurant`, JSON.stringify(restaurant), {
             headers: {
                 'Accept': 'application/json, text/plain, */*',

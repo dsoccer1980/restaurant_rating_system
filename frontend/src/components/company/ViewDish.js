@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { API_URL } from '../Const';
 import getFormattedDate from '../Const';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 
 export default class ViewDish extends Component {
@@ -20,6 +21,7 @@ export default class ViewDish extends Component {
         const { refresh } = this.props;
         if (props.refresh !== refresh) {
             this.setState({ currentDate: this.props.currentDate })
+            AuthenticationService.setupAxiosInterceptors();
             axios.get(`${API_URL}/company/dish/date/${this.props.currentDate}`)
                 .then(response => {
                     this.setState({ dishes: response.data });
@@ -28,6 +30,7 @@ export default class ViewDish extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/company/dish/date/${this.props.currentDate}`)
             .then(response => {
                 this.setState({ dishes: response.data });

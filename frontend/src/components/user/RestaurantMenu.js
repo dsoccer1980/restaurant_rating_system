@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import { API_URL } from '../Const';
 import getFormattedDate from '../Const';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class RestaurantMenu extends Component {
 
@@ -18,6 +19,7 @@ export default class RestaurantMenu extends Component {
         const { refresh } = this.props;
         if (props.refresh !== refresh) {
             this.setState({ currentDate: this.props.currentDate })
+            AuthenticationService.setupAxiosInterceptors();
             axios.get(`${API_URL}/user/dish/restaurant/${this.props.restaurantId}/date/${this.props.currentDate}`)
                 .then(response => {
                     this.setState({ dishes: response.data });
@@ -26,6 +28,7 @@ export default class RestaurantMenu extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/user/dish/restaurant/${this.props.restaurantId}/date/${this.props.currentDate}`)
             .then(response => {
                 this.setState({ dishes: response.data });

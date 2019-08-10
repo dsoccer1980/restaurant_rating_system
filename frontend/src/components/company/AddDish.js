@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { API_URL } from '../Const';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class AddDish extends Component {
     constructor(props) {
@@ -43,6 +44,7 @@ export default class AddDish extends Component {
                 price: this.state.price,
                 date: this.state.date,
             };
+            AuthenticationService.setupAxiosInterceptors();
             axios.post(`${API_URL}/company/dish`, JSON.stringify(obj), {
                 headers: {
                     'Accept': 'application/json, text/plain, */*',

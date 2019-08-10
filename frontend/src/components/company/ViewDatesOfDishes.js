@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from '../Const';
 import getFormattedDate from '../Const';
 import ViewDish from './ViewDish';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class ViewDatesOfDishes extends Component {
 
@@ -20,6 +21,7 @@ export default class ViewDatesOfDishes extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/company/dish/date`)
             .then(response => {
                 this.setState({ dates: response.data });

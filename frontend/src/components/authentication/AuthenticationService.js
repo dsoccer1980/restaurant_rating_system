@@ -18,11 +18,7 @@ class AuthenticationService {
     registerSuccessfulLoginForJwt = (username, token) => {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username);
         localStorage.setItem(ACCESS_TOKEN, token);
-        this.setupAxiosInterceptors(this.createJWTToken(token));
-    }
-
-    createJWTToken(token) {
-        return 'Bearer ' + token
+        this.setupAxiosInterceptors();
     }
 
     setupRoles = (token) => {
@@ -65,11 +61,12 @@ class AuthenticationService {
         return user
     }
 
-    setupAxiosInterceptors(token) {
+    setupAxiosInterceptors() {
+        const token = 'Bearer ' + localStorage.getItem(ACCESS_TOKEN);
         axios.interceptors.request.use(
             (config) => {
                 if (this.isUserLoggedIn()) {
-                    config.headers.authorization = token
+                    config.headers.authorization = token;
                 }
                 return config
             }

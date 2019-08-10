@@ -13,6 +13,7 @@ export default class ProfileUser extends Component {
     };
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/user`)
             .then(response => {
                 this.setState({
@@ -41,6 +42,7 @@ export default class ProfileUser extends Component {
         const { name, password, email } = this.state;
         const userProfile = { name, password, email };
 
+        AuthenticationService.setupAxiosInterceptors();
         axios.put(`${API_URL}/user`, JSON.stringify(userProfile), {
             headers: {
                 'Accept': 'application/json, text/plain, */*',

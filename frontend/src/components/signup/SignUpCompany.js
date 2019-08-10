@@ -1,5 +1,6 @@
 import React from 'react'
 import { API_URL } from '../Const'
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class SignUpCompany extends React.Component  {
 
@@ -29,6 +30,7 @@ export default class SignUpCompany extends React.Component  {
     }
     
     saveUser = (user) => {
+        AuthenticationService.setupAxiosInterceptors();
         return fetch(`${API_URL}/company`, {
             method: 'post',
             headers: {'Content-Type':'application/json'},

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { API_URL, ACCESS_TOKEN } from '../Const';
+import { API_URL } from '../Const';
 import RestaurantMenu from './RestaurantMenu';
 import ViewUserVotes from './ViewUserVotes';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class ListRestaurantToday extends Component {
 
@@ -24,21 +25,8 @@ export default class ListRestaurantToday extends Component {
 
 
     componentDidMount() {
-        const headers = new Headers({
-            'Content-Type': 'application/json',
-        });
-        const token = localStorage.getItem(ACCESS_TOKEN);
-        if (token) {
-            headers.append('Authorization', 'Bearer ' + token);
-
-        }
-
-
-        axios.get(`${API_URL}/user/restaurant`, {}, {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        })
+        AuthenticationService.setupAxiosInterceptors();
+        axios.get(`${API_URL}/user/restaurant`, {}, { })
             .then(response => {
                 this.setState({ restaurants: response.data });
             })
@@ -58,6 +46,7 @@ export default class ListRestaurantToday extends Component {
     }
 
     onClickCancel = (id) => {
+        AuthenticationService.setupAxiosInterceptors();
         axios.delete(`${API_URL}/user/vote`)
         .then(response => {
             this.setState({ votedRestaurantId: -1 });

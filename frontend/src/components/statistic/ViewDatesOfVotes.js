@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from '../Const';
 import getFormattedDate from '../Const';
 import ViewResultsOfVotesByDate from './ViewResultsOfVotesByDate';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class ViewDatesOfVotes extends Component {
 
@@ -20,6 +21,7 @@ export default class ViewDatesOfVotes extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/vote/date`)
             .then(response => {
                 this.setState({ dates: response.data });

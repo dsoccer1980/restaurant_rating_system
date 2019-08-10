@@ -4,6 +4,7 @@ import axios from "axios";
 import { API_URL } from '../Const';
 import ViewDatesOfDishes from './ViewDatesOfDishes';
 import ProfileRestaurant from '../profile/ProfileRestaurant';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class RestaurantPage extends Component {
 
@@ -20,6 +21,7 @@ export default class RestaurantPage extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/company/restaurant`)
         .then(response => {
             if (response.status === 204) {

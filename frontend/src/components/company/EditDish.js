@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import {API_URL} from '../Const';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class EditDish extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class EditDish extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/company/dish/${this.props.match.params.id}`)
             .then(response => {
                 this.setState({
@@ -49,6 +51,7 @@ export default class EditDish extends Component {
             price: this.state.price,
             date: this.state.date
         };
+        AuthenticationService.setupAxiosInterceptors();
         axios.put(`${API_URL}/company/dish`, JSON.stringify(obj), {
             headers: {
                 'Accept': 'application/json, text/plain, */*',

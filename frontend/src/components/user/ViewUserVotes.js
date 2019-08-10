@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 import { API_URL } from '../Const';
 import getFormattedDate from '../Const';
+import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class ViewUserVotes extends Component {
 
@@ -15,6 +16,7 @@ export default class ViewUserVotes extends Component {
     }
 
     componentDidMount() {
+        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/user/vote`)
             .then(response => {
                 this.setState({ votes: response.data });
