@@ -22,7 +22,7 @@ public class RestaurantRestController {
         this.userService = userService;
     }
 
-    @PostMapping(value = "/company/restaurant", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/company/restaurant")
     public ResponseEntity<?> createRestaurant(@RequestBody Restaurant restaurant) {
         long userId = AuthorizedUser.get().getId();
         restaurant.setUser(userService.get(userId));
@@ -31,7 +31,7 @@ public class RestaurantRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/company/restaurant", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/company/restaurant")
     public ResponseEntity<?> updateRestaurant(@RequestBody Restaurant restaurant) {
         long userId = AuthorizedUser.get().getId();
         restaurant.setUser(userService.get(userId));

@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
         }
         userFromDb.setEmail(userDto.getEmail());
         repository.save(userFromDb);
-
     }
 
 }

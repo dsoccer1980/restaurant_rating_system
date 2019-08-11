@@ -27,7 +27,7 @@ public class DishRestController {
         this.restaurantService = restaurantService;
     }
 
-    @PostMapping(value = "/company/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/company/dish")
     public Dish createDish(@RequestBody Dish dish) {
         if (dish.getDate().isBefore(LocalDate.now())) {
             return null;
@@ -42,7 +42,7 @@ public class DishRestController {
         dishService.delete(id);
     }
 
-    @PutMapping(value = "/company/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/company/dish")
     public void update(@RequestBody Dish dish) {
         dish.setRestaurant(dishService.get(dish.getId()).getRestaurant());
         dishService.update(dish);
