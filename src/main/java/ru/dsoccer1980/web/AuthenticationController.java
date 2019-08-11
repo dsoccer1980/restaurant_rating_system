@@ -7,7 +7,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import ru.dsoccer1980.model.Role;
@@ -41,10 +40,6 @@ public class AuthenticationController {
     @GetMapping("/role")
     public Set<String> getRole(Principal currentUser) {
         Object principal = ((UsernamePasswordAuthenticationToken) currentUser).getPrincipal();
-        if (principal instanceof org.springframework.security.core.userdetails.User) {
-            org.springframework.security.core.userdetails.User userSecurity = (org.springframework.security.core.userdetails.User) principal;
-            return userSecurity.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-        }
 
         return ((User) principal)
                 .getRoles().stream()
