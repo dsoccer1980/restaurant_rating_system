@@ -23,7 +23,7 @@ public class UserRestController {
     private final RoleService roleService;
     private final MessageGateway messageGateway;
 
-    @PostMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/user")
     public ResponseEntity<?> saveUser(@RequestBody User user) {
         roleService.getByName(InitProps.ROLE_USER).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
@@ -32,7 +32,7 @@ public class UserRestController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping(value = "/user", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/user")
     public ResponseEntity<?> updateUser(@RequestBody UserDto userDto) {
         long userId = AuthorizedUser.get().getId();
         userService.update(userId, userDto);
@@ -44,7 +44,7 @@ public class UserRestController {
         return UserDto.getUserDto(userService.get(AuthorizedUser.get().getId()));
     }
 
-    @PostMapping(value = "/company", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/company")
     public ResponseEntity<?> saveCompany(@RequestBody User user) {
         roleService.getByName(InitProps.ROLE_COMPANY).ifPresent(role -> user.setRoles(Set.of(role)));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
