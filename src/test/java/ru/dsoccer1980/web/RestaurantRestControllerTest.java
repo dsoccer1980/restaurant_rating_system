@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.dsoccer1980.model.Dish;
 import ru.dsoccer1980.model.Restaurant;
 import ru.dsoccer1980.model.Role;
 import ru.dsoccer1980.model.User;
@@ -15,9 +14,7 @@ import ru.dsoccer1980.service.RestaurantService;
 import ru.dsoccer1980.service.UserService;
 import ru.dsoccer1980.util.config.InitProps;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.LocalDate;
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
@@ -29,12 +26,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest({RestaurantRestController.class})
+@MockBean(classes = {UserService.class})
 class RestaurantRestControllerTest extends AbstractControllerTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
     private final Role ROLE_COMPANY = new Role(40L, InitProps.ROLE_COMPANY);
-    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Set.of(ROLE_COMPANY));
-    private final Restaurant RESTAURANT1 = new Restaurant(10L, "TSAR", "Nevskij 53", USER1);
+    private final Role ROLE_USER = new Role(41L, InitProps.ROLE_USER);
+    private final User USER1 = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Set.of(ROLE_USER));
+    private final User COMPANY = new User(1L, "Ivanov", "ivan@gmail.com", "password", registeredTime, Set.of(ROLE_COMPANY));
+    private final Restaurant RESTAURANT1 = new Restaurant(10L, "TSAR", "Nevskij 53", COMPANY);
 
     @Autowired
     private MockMvc mvc;
@@ -43,16 +43,18 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     private RestaurantService restaurantService;
 
     @MockBean
-    private UserService userService;
-
-    @MockBean
     private UserRepository userRepository;
 
+    @PostConstruct
+    void postConstruct() {
+        given(userRepository.findByName("company")).willReturn(Optional.of(COMPANY));
+        given(userRepository.findByName("user")).willReturn(Optional.of(USER1));
+    }
+
     @Test
-    @WithMockUser(username = "company", authorities = {"ROLE_COMPANY"})
+    @WithUserDetails(value = "company")
     void createRestaurantWithCompany() throws Exception {
-        given(restaurantService.getRestaurantByUserId(-1L)).willReturn(Optional.of(RESTAURANT1));
-        given(userService.get(-1L)).willReturn(USER1);
+        given(restaurantService.getRestaurantByUserId(COMPANY.getId())).willReturn(Optional.of(RESTAURANT1));
 
         mvc.perform(post("/company/restaurant")
                 .contentType(APPLICATION_JSON)
@@ -61,11 +63,8 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "user", authorities = {"ROLE_USER"})
+    @WithUserDetails(value = "user")
     void createRestaurantWithUser() throws Exception {
-        given(restaurantService.getRestaurantByUserId(-1L)).willReturn(Optional.of(RESTAURANT1));
-        given(userService.get(-1L)).willReturn(USER1);
-
         mvc.perform(post("/company/restaurant")
                 .contentType(APPLICATION_JSON)
                 .content(asJsonString(RESTAURANT1)))
@@ -73,19 +72,17 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "company", authorities = {"ROLE_COMPANY"})
+    @WithUserDetails(value = "company")
     void hasUserRestaurantWithCompanyDoesntHas() throws Exception {
-        given(restaurantService.getRestaurantByUserId(-1L)).willReturn(Optional.empty());
+        given(restaurantService.getRestaurantByUserId(COMPANY.getId())).willReturn(Optional.empty());
 
         mvc.perform(get("/company/user/restaurant"))
                 .andExpect(status().is(404));
     }
 
     @Test
-    @WithMockUser(username = "user", authorities = {"ROLE_USER"})
+    @WithUserDetails(value = "user")
     void hasUserRestaurantWithUser() throws Exception {
-        given(restaurantService.getRestaurantByUserId(-1L)).willReturn(Optional.of(new Restaurant(100L, "name", "address", null)));
-
         mvc.perform(get("/company/user/restaurant"))
                 .andExpect(status().is(403));
     }
