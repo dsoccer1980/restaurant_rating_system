@@ -12,7 +12,6 @@ import ru.dsoccer1980.service.UserService;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantRestController {
 
     private final RestaurantService restaurantService;

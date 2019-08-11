@@ -17,7 +17,6 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserRestController {
 
     private final UserService userService;

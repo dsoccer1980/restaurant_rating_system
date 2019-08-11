@@ -15,7 +15,6 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController {
 
     private final VoteService voteService;

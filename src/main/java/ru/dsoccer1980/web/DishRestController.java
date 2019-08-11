@@ -17,7 +17,6 @@ import java.util.Set;
 
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
 
     private final DishService dishService;
