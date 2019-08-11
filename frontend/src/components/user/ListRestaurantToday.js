@@ -52,7 +52,8 @@ export default class ListRestaurantToday extends Component {
             })
     }
 
-    onClickVote = (id) => {
+    onClickVote = (e, id) => {
+        e.preventDefault();
         AuthenticationService.setupAxiosInterceptors();
         axios.post(`${API_URL}/user/vote/restaurant/${id}/date/${this.state.currentDate}`)
             .then(response => {
@@ -75,7 +76,7 @@ export default class ListRestaurantToday extends Component {
                             <div>  <span className="btn btn-success">Voted</span> &nbsp;&nbsp;&nbsp;
                           <button className="btn btn-danger" onClick={this.onClickCancel}>Cancel</button>
                             </div> :
-                            <button onClick={this.onClickVote.bind(this, object.id)} className="btn btn-primary">Vote</button>
+                            <button onClick={(e) =>this.onClickVote(e, object.id)} className="btn btn-primary">Vote</button>
                         }
                     </div>
                 </div>
