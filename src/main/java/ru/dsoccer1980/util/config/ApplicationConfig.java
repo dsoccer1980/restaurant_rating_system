@@ -1,5 +1,8 @@
 package ru.dsoccer1980.util.config;
 
+import io.micrometer.core.instrument.Meter;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -24,5 +27,10 @@ public class ApplicationConfig {
     @Bean
     public EmailService emailService() {
         return new EmailServiceImpl();
+    }
+
+    @Bean
+    MeterRegistryCustomizer<MeterRegistry> saveBookRegistry() {
+        return registry -> registry.config().namingConvention().name("services.user.registration", Meter.Type.COUNTER);
     }
 }

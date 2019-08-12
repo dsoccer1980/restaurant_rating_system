@@ -1,5 +1,7 @@
 package ru.dsoccer1980.service;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,13 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final MeterRegistry registry;
+    private Counter userRegisterCounter;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, MeterRegistry registry) {
         this.repository = repository;
+        this.registry = registry;
+        this.userRegisterCounter = registry.counter("services.user.registration");
     }
 
     @Override
@@ -40,6 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
         Objects.requireNonNull(user, "user must not be null");
+        userRegisterCounter();
         return repository.save(user);
     }
 
@@ -67,6 +74,12 @@ public class UserServiceImpl implements UserService {
         }
         userFromDb.setEmail(userDto.getEmail());
         repository.save(userFromDb);
+    }
+
+    private void userRegisterCounter() {
+        if (userRegisterCounter != null) {
+            userRegisterCounter.increment();
+        }
     }
 
 }

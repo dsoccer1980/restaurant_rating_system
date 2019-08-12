@@ -43,3 +43,12 @@ jwt:
     expiration:
       in:
         seconds: 3600
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics
