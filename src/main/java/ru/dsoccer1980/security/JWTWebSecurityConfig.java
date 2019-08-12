@@ -63,13 +63,17 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests().antMatchers("/company/**").hasRole(InitProps.ROLE_COMPANY)
                 .and()
-                .authorizeRequests().antMatchers(HttpMethod.GET, "/user").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_COMPANY)
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/user").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_COMPANY, InitProps.ROLE_ADMIN)
                 .and()
-                .authorizeRequests().antMatchers(HttpMethod.PUT, "/user").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_COMPANY)
+                .authorizeRequests().antMatchers(HttpMethod.PUT, "/user").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_COMPANY, InitProps.ROLE_ADMIN)
                 .and()
-                .authorizeRequests().antMatchers("/user/**").hasRole(InitProps.ROLE_USER)
+                .authorizeRequests().antMatchers("/user/**").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_ADMIN)
+                .and()
+                .authorizeRequests().antMatchers("/admin/**").hasRole(InitProps.ROLE_ADMIN)
                 .and()
                 .authorizeRequests().antMatchers("/built/bundle.js").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/favicon.ico").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity

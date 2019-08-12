@@ -6,6 +6,7 @@ public class InitProps {
 
     public static String ROLE_USER = "USER";
     public static String ROLE_COMPANY = "COMPANY";
+    public static String ROLE_ADMIN = "ADMIN";
 
 
 }
