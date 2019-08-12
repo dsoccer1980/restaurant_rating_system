@@ -9,6 +9,8 @@ export const ROLES = 'roles';
 class AuthenticationService {
 
     executeJwtAuthenticationService(username, password) {
+        sessionStorage.clear();
+        localStorage.clear();
         return axios.post(`${API_URL}/authenticate`, {
             username,
             password
@@ -21,12 +23,8 @@ class AuthenticationService {
         this.setupAxiosInterceptors();
     }
 
-    setupRoles = (token) => {
-        return axios.get(`${API_URL}/role`, {}, {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        }
+    setupRoles = () => {
+        return axios.get(`${API_URL}/role`, {}, {}
         ).then(response => {
             sessionStorage.setItem(ROLES, response.data)
             sessionStorage.setItem(IS_USER_ADMIN, response.data)

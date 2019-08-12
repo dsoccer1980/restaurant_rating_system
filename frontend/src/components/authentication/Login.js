@@ -27,13 +27,15 @@ export default class Login extends Component {
         AuthenticationService
             .executeJwtAuthenticationService(this.state.username, this.state.password)
             .then((response) => {
-                AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token)
+                AuthenticationService.registerSuccessfulLoginForJwt(this.state.username, response.data.token);
                 AuthenticationService.setupRoles(response.data.token)
                     .then(() => {
                         if (AuthenticationService.getRoles().indexOf("USER") !== -1) {
                             this.props.history.push(`/restaurants/view`);
                         } else if (AuthenticationService.getRoles().indexOf("COMPANY") !== -1) {
                             this.props.history.push(`/restaurantPage`);
+                        } else if (AuthenticationService.getRoles().indexOf("ADMIN") !== -1) {
+                            this.props.history.push(`/admin/users`);
                         } else {
                             this.props.history.push(`/login`);
                         }
@@ -51,6 +53,10 @@ export default class Login extends Component {
 
     clickCompanyButton = () => {
         this.setState({ username: 'company', password: 'password' })
+    }
+
+    clickAdminButton = () => {
+        this.setState({ username: 'admin', password: 'password' })
     }
 
     render() {
@@ -71,7 +77,8 @@ export default class Login extends Component {
                                 <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
                             </div>
                             <button className="btn btn-lg btn-info" onClick={this.clickUserButton}>User</button> &nbsp; &nbsp;
-                             <button className="btn btn-lg btn-info" onClick={this.clickCompanyButton}>Company</button>
+                             <button className="btn btn-lg btn-info" onClick={this.clickCompanyButton}>Company</button> &nbsp; &nbsp;
+                             <button className="btn btn-lg btn-info" onClick={this.clickAdminButton}>Admin</button>
                     </div>
                 </div>
                 

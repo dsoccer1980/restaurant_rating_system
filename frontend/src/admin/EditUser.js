@@ -3,8 +3,9 @@ import { API_URL } from '../Const'
 import axios from 'axios';
 import AuthenticationService from '../authentication/AuthenticationService';
 
-export default class ProfileUser extends Component {
+export default class EditUser extends Component {
     state = {
+        id: '', 
         name: '',
         password: '',
         email: '',
@@ -14,9 +15,10 @@ export default class ProfileUser extends Component {
 
     componentDidMount() {
         AuthenticationService.setupAxiosInterceptors();
-        axios.get(`${API_URL}/user`)
+        axios.get(`${API_URL}/admin/user/${this.props.match.params.id}`)
             .then(response => {
                 this.setState({
+                    id: response.data.id,
                     name: response.data.name,
                     password: response.data.password,
                     email: response.data.email,
@@ -39,11 +41,11 @@ export default class ProfileUser extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { name, password, email } = this.state;
-        const userProfile = { name, password, email };
+        const { id, name, password, email } = this.state;
+        const userProfile = { id, name, password, email };
 
         AuthenticationService.setupAxiosInterceptors();
-        axios.put(`${API_URL}/user`, JSON.stringify(userProfile), {
+        axios.put(`${API_URL}/admin/user`, JSON.stringify(userProfile), {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json'
@@ -59,20 +61,14 @@ export default class ProfileUser extends Component {
 
     onCancelClick = (e) => {
         e.preventDefault();
-        if (AuthenticationService.getRoles().indexOf("USER") !== -1) {
-            this.props.history.push(`/restaurants/view`);
-        } else if (AuthenticationService.getRoles().indexOf("COMPANY") !== -1) {
-            this.props.history.push(`/restaurantPage`);
-        } else if (AuthenticationService.getRoles().indexOf("ADMIN") !== -1) {
             this.props.history.push(`/admin/users`);
-        }
     }
 
 
 
     render() {
 
-        const { name, password, email, addResult, errorMessage } = this.state;
+        const { id, name, password, email, addResult, errorMessage } = this.state;
 
         return (
             <div>
@@ -80,6 +76,11 @@ export default class ProfileUser extends Component {
                 <form className='form-horizontal'>
                     <div className='form-group'>
                         <div className='col-sm-10'>
+                             <input id='id'
+                                    type='hidden'
+                                    value={id}
+                                    required={true}
+                                />
                             <label>User name
                                 <input id='name'
                                     className='form-control'

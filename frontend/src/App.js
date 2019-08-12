@@ -17,6 +17,9 @@ import ProfileRestaurant from './components/profile/ProfileRestaurant';
 import RestaurantPage from './components/company/RestaurantPage';
 import ProfileUser from './components/profile/ProfileUser';
 import ProfileRestaurantUpdate from './components/profile/ProfileRestaurantUpdate';
+import ViewUsers from './components/admin/ViewUsers';
+import EditUser from './components/admin/EditUser';
+import DeleteUser from './components/admin/DeleteUser';
 
 
 class App extends Component {
@@ -42,9 +45,10 @@ class App extends Component {
             <AuthenticatedRoute path="/profileRestaurantUpdate" exact component={ProfileRestaurantUpdate} />
             <AuthenticatedRoute path='/restaurantPage' exact component={RestaurantPage} />
             <AuthenticatedRoute path='/user/profile' exact component={ProfileUser} />
+            <AuthenticatedRoute path='/admin/users' exact component={ViewUsers} />
+            <AuthenticatedRoute path='/admin/editUser/:id' exact component={EditUser} />
+            <AuthenticatedRoute path='/admin/user/delete/:id' component={DeleteUser} />
           </Switch>
-    
-
         </div>
       </Router>
     );

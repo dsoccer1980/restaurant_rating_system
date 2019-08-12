@@ -50,8 +50,6 @@ export default class ViewDatesOfVotes extends Component {
         return (
             <div>
                 <h4>Results of votes:</h4>
-               
-
                 <ul className="list-group" style={{width:'15%'}}>
                     {this.tabRow()}
                 </ul>

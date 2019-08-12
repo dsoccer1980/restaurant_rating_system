@@ -42,7 +42,6 @@ export default class ViewDatesOfDishes extends Component {
                            onClick={this.onClickDate.bind(this, i)}> {getFormattedDate(object)}
                       </button>
                    </div>
-
         }, this);
     }
 

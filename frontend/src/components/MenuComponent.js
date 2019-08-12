@@ -4,7 +4,7 @@ import AuthenticationService from './authentication/AuthenticationService';
 
 export default class MenuComponent extends Component {
 
-    
+
     render() {
         const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
         const userName = AuthenticationService.getLoggedInUserName();
@@ -42,6 +42,12 @@ export default class MenuComponent extends Component {
                         {isUserLoggedIn && role.indexOf("COMPANY") !== -1 &&
                             <li>
                                 <Link className="nav-link" to="/restaurantPage">Home</Link>
+                            </li>
+                        }
+
+                        {isUserLoggedIn && role.indexOf("ADMIN") !== -1 &&
+                            <li>
+                                <Link className="nav-link" to="/admin/users">Home</Link>
                             </li>
                         }
 

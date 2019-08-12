@@ -25,7 +25,7 @@ export default class ListRestaurantToday extends Component {
 
     componentDidMount() {
         AuthenticationService.setupAxiosInterceptors();
-        axios.get(`${API_URL}/user/restaurant`, {}, {})
+        axios.get(`${API_URL}/user/restaurant`, {}, { })
             .then(response => {
                 this.setState({ restaurants: response.data });
             })
@@ -57,7 +57,7 @@ export default class ListRestaurantToday extends Component {
         AuthenticationService.setupAxiosInterceptors();
         axios.post(`${API_URL}/user/vote/restaurant/${id}/date/${this.state.currentDate}`)
             .then(response => {
-                this.setState({ votedRestaurantId: response.data });
+              this.setState({ votedRestaurantId: response.data });
             });
         this.refreshState();
     }
