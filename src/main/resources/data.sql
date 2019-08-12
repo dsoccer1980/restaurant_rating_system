@@ -11,6 +11,7 @@ INSERT INTO users values (4, 'user2', 'user2@gmail.com', '$2a$10$9vBkM90.Nc5WfI9
 INSERT INTO users values (5, 'user3', 'user3@gmail.com', '$2a$10$9vBkM90.Nc5WfI9MmGmCv.h2zxTn/imIq2n1HD/9w8/CNMRrn3oN.', '2019-07-31');
 INSERT INTO users values (2, 'company', 'company@gmail.com', '$2a$10$9vBkM90.Nc5WfI9MmGmCv.h2zxTn/imIq2n1HD/9w8/CNMRrn3oN.', '2019-07-31');
 INSERT INTO users values (3, 'company2', 'company2@gmail.com', '$2a$10$9vBkM90.Nc5WfI9MmGmCv.h2zxTn/imIq2n1HD/9w8/CNMRrn3oN.', '2019-07-31');
+INSERT INTO users values (6, 'admin', 'admin@gmail.com', '$2a$10$9vBkM90.Nc5WfI9MmGmCv.h2zxTn/imIq2n1HD/9w8/CNMRrn3oN.', '2019-07-31');
 
 INSERT INTO restaurant(id, name, address, user_id) values (10, 'Астория', 'Большая Морская ул., 39', 2);
 INSERT INTO restaurant(id, name, address, user_id) values (11, 'Метрополь', 'Садовая ул., 22/2', 3);
@@ -26,12 +27,14 @@ INSERT INTO dish values (27, 'Шоколадный фондан ', 450, 11, NOW(
 
 INSERT INTO role values (40, 'USER');
 INSERT INTO role values (41, 'COMPANY');
+INSERT INTO role values (42, 'ADMIN');
 
 INSERT INTO user_roles VALUES (1, 40);
 INSERT INTO user_roles VALUES (4, 40);
 INSERT INTO user_roles VALUES (5, 40);
 INSERT INTO user_roles VALUES (2, 41);
 INSERT INTO user_roles VALUES (3, 41);
+INSERT INTO user_roles VALUES (6, 42);
 
 INSERT INTO user_vote values (30, 1, 11, '2019-07-24');
 INSERT INTO user_vote values (31, 4, 10, '2019-07-24');
