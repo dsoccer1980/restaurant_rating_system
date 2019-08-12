@@ -15,7 +15,6 @@ export default class ViewResultsOfVotesByDate extends Component {
     }
 
     componentDidMount() {
-        AuthenticationService.setupAxiosInterceptors();
         axios.get(`${API_URL}/vote/date/${this.props.chosenDate}`)
             .then(response => {
                 this.setState({ resultMap: response.data });
