@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { API_URL } from '../Const';
-import AuthenticationService from '../authentication/AuthenticationService';
 
 export default class ViewResultsOfVotesByDate extends Component {
 
