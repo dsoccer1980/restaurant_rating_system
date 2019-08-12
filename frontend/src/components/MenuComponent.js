@@ -57,6 +57,12 @@ export default class MenuComponent extends Component {
                             </li>
                         }
 
+                        {isUserLoggedIn && role.indexOf("ADMIN") !== -1 &&
+                            <li>
+                            <Link className="nav-link" to="/actuator">Actuator</Link>
+                        </li>
+                        }
+
                         {isUserLoggedIn &&
                             <li>
                                 <Link className="nav-link" to="/logout" onClick={AuthenticationService.logout}>Logout</Link>

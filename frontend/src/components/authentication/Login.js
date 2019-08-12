@@ -66,7 +66,7 @@ export default class Login extends Component {
                     <div className="col-md-4 login-form-1">
                         {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials</div>}
                         {this.state.showSuccessMessage && <div>Login Sucessful</div>}
-                        <h3 align="center">Login</h3>
+                        <h3 align="center">Please log in</h3>
                             <div className="form-group">
                                 <input type="text" name="username" className="form-control" placeholder="Your Username *"  value={this.state.username} onChange={this.handleChange} />
                             </div>
@@ -74,7 +74,7 @@ export default class Login extends Component {
                                 <input type="password" name="password" className="form-control" placeholder="Your Password *" value={this.state.password} onChange={this.handleChange} />
                             </div>
                             <div className="form-group">
-                                <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
+                                <button className="form-control btn btn-primary" onClick={this.loginClicked}>Login</button>
                             </div>
                             <button className="btn btn-lg btn-info" onClick={this.clickUserButton}>User</button> &nbsp; &nbsp;
                              <button className="btn btn-lg btn-info" onClick={this.clickCompanyButton}>Company</button> &nbsp; &nbsp;
