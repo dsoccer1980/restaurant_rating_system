@@ -35,9 +35,9 @@ export default class ViewDatesOfVotes extends Component {
 
     tabRow() {
         return this.state.dates.map(function (date, i) {
-            return <li className={"list-group-item " + (this.state.currentDate === date ? 'active' : 'inactive')}
+            return  <button type="button" className={"list-group-item list-group-item-action "  + (this.state.currentDate === date ? 'active' : 'inactive')}
                        key={i} onClick={this.onClickDate.bind(this, i)}>{getFormattedDate(date)}
-                    </li>
+                    </button>
         }, this);
     }
 
@@ -50,6 +50,8 @@ export default class ViewDatesOfVotes extends Component {
         return (
             <div>
                 <h4>Results of votes:</h4>
+               
+
                 <ul className="list-group" style={{width:'15%'}}>
                     {this.tabRow()}
                 </ul>

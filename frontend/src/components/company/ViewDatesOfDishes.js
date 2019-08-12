@@ -37,7 +37,12 @@ export default class ViewDatesOfDishes extends Component {
 
     tabRow() {
         return this.state.dates.map(function (object, i) {
-            return <div key={i} className="col-md-2"> <p className="list-group-item" onClick={this.onClickDate.bind(this, i)}>{getFormattedDate(object)}</p></div>
+            return <div key={i} className="col-md-2">
+                      <button type="button" className={"list-group-item list-group-item-action " + (this.state.currentDate === object ? 'active' : 'inactive')}
+                           onClick={this.onClickDate.bind(this, i)}> {getFormattedDate(object)}
+                      </button>
+                   </div>
+
         }, this);
     }
 

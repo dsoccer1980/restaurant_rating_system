@@ -25,7 +25,7 @@ export default class ListRestaurantToday extends Component {
 
     componentDidMount() {
         AuthenticationService.setupAxiosInterceptors();
-        axios.get(`${API_URL}/user/restaurant`, {}, { })
+        axios.get(`${API_URL}/user/restaurant`, {}, {})
             .then(response => {
                 this.setState({ restaurants: response.data });
             })
@@ -57,9 +57,9 @@ export default class ListRestaurantToday extends Component {
         AuthenticationService.setupAxiosInterceptors();
         axios.post(`${API_URL}/user/vote/restaurant/${id}/date/${this.state.currentDate}`)
             .then(response => {
-              this.setState({ votedRestaurantId: response.data });
+                this.setState({ votedRestaurantId: response.data });
             });
-            this.refreshState();
+        this.refreshState();
     }
 
     tabRow() {
@@ -68,15 +68,18 @@ export default class ListRestaurantToday extends Component {
             return (
                 <div className="row" key={i}>
                     <div className="col-md-6">
-                        <li className={"list-group-item " + (this.state.restaurantId === object.id ? 'active' : 'inactive')}
-                            onClick={this.onClickDate.bind(this, object.id)}><b>{object.name}</b>&nbsp;({object.address})</li>
+                        <button type="button" className={"list-group-item list-group-item-action "
+                            + (this.state.restaurantId === object.id ? 'active' : 'inactive')}
+                            onClick={this.onClickDate.bind(this, object.id)}>
+                            <b>{object.name}</b>&nbsp;({object.address})
+                        </button>
                     </div>
                     <div className="col-md-6">
                         {+this.state.votedRestaurantId === +object.id ?
                             <div>  <span className="btn btn-success">Voted</span> &nbsp;&nbsp;&nbsp;
-                          <button className="btn btn-danger" onClick={this.onClickCancel}>Cancel</button>
+                                    <button className="btn btn-danger" onClick={this.onClickCancel}>Cancel</button>
                             </div> :
-                            <button onClick={(e) =>this.onClickVote(e, object.id)} className="btn btn-primary">Vote</button>
+                            <button onClick={(e) => this.onClickVote(e, object.id)} className="btn btn-primary">Vote</button>
                         }
                     </div>
                 </div>
