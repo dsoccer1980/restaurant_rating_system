@@ -32,6 +32,6 @@ public class LimitUsersRegistrationHealthCheck implements HealthIndicator {
 
         return result.size() != 0 ?
                 Health.up().withDetail("Too many users", result).build() :
-                Health.down().withDetail("Count of user is good", "").build();
+                Health.status("Count of user is OK").build();
     }
 }
