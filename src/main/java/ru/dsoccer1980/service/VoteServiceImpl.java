@@ -1,9 +1,9 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Restaurant;
-import ru.dsoccer1980.model.User;
-import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.domain.Restaurant;
+import ru.dsoccer1980.domain.User;
+import ru.dsoccer1980.domain.Vote;
 import ru.dsoccer1980.repository.RestaurantRepository;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.repository.VoteRepository;

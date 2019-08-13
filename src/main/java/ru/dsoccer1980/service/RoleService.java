@@ -1,6 +1,6 @@
 package ru.dsoccer1980.service;
 
-import ru.dsoccer1980.model.Role;
+import ru.dsoccer1980.domain.Role;
 
 import java.util.Optional;
 

@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.domain.Vote;
 
 import java.time.LocalDate;
 import java.util.List;

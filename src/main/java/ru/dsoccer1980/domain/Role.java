@@ -1,4 +1,4 @@
-package ru.dsoccer1980.model;
+package ru.dsoccer1980.domain;
 
 
 import lombok.AllArgsConstructor;

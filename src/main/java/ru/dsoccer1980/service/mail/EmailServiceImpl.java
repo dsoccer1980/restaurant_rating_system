@@ -5,7 +5,7 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.User;
 
 
 @Service

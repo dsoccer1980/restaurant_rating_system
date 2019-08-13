@@ -1,10 +1,9 @@
 package ru.dsoccer1980.web;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.RestaurantService;
 import ru.dsoccer1980.service.UserService;

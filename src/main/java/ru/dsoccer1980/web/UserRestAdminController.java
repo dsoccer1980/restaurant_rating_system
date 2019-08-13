@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.dsoccer1980.dto.UserDto;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.service.UserService;
 
 import java.util.List;

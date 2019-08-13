@@ -1,5 +1,6 @@
 package ru.dsoccer1980.service;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import ru.dsoccer1980.model.Role;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.Role;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.config.InitProps;
 import ru.dsoccer1980.util.exception.NotFoundException;
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @Import({UserServiceImpl.class})
+@MockBean(classes={MeterRegistry.class})
 class UserServiceImplTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);

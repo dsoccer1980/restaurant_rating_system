@@ -1,7 +1,7 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Role;
+import ru.dsoccer1980.domain.Role;
 import ru.dsoccer1980.repository.RoleRepository;
 
 import java.util.Optional;

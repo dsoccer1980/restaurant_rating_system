@@ -3,7 +3,7 @@ package ru.dsoccer1980.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

@@ -1,7 +1,7 @@
 package ru.dsoccer1980.service;
 
 
-import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.domain.Vote;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -2,9 +2,8 @@ package ru.dsoccer1980.web;
 
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.domain.Vote;
 import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.VoteService;
 

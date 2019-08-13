@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.dsoccer1980.dto.UserDto;
 import ru.dsoccer1980.integration.MessageGateway;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.RoleService;
 import ru.dsoccer1980.service.UserService;

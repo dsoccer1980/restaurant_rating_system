@@ -1,6 +1,6 @@
 package ru.dsoccer1980.service.mail;
 
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.User;
 
 
 public interface EmailService {

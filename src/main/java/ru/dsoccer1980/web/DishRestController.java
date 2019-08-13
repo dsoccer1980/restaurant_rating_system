@@ -3,10 +3,9 @@ package ru.dsoccer1980.web;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.dsoccer1980.model.Dish;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Dish;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.DishService;
 import ru.dsoccer1980.service.RestaurantService;

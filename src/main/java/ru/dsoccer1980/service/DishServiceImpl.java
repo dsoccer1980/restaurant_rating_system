@@ -2,8 +2,8 @@ package ru.dsoccer1980.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Dish;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Dish;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.repository.DishRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
