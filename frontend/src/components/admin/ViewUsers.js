@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import { API_URL } from '../Const';
+import getFormattedDate from '../Const';
 import AuthenticationService from '../authentication/AuthenticationService';
 
 
@@ -44,6 +45,9 @@ export default class ViewUsers extends Component {
                         {obj.email}
                     </td>
                     <td>
+                        {getFormattedDate(obj.registrationTime)}
+                    </td>
+                    <td>
                         {obj.roles[0].name}
                     </td>
                     <td>
@@ -68,6 +72,7 @@ export default class ViewUsers extends Component {
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Reg.date</th>
                                     <th>Role</th>
                                     <th colSpan="2">Action</th>
                                 </tr>
