@@ -30,7 +30,6 @@ export default class SignUpUser extends React.Component {
     }
     
     saveUser = (user) => {
-        AuthenticationService.setupAxiosInterceptors();
         return fetch(`${API_URL}/user`, {
             method: 'post',
             headers: {'Content-Type':'application/json'},

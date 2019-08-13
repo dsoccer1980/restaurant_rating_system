@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class LimitUsersRegistrationHealthCheck implements HealthIndicator {
 
-    private static final int USERS_LIMIT = 3;
+    private static final int USERS_LIMIT = 4;
     private final UserRepository repository;
 
     @Override
