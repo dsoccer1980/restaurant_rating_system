@@ -66,6 +66,7 @@ export default class ViewDish extends Component {
 
         return (
             <div>
+                <br></br><br></br>
                 {isCurrentDate && this.state.dishes.length !== 0 && <h3 align="center">Current day menu</h3>}
                 {isCurrentDate && this.state.dishes.length === 0 && <h3 align="center">You haven't create yet today menu.</h3>}
                 {!isCurrentDate && <h3 align="center">Menu for {getFormattedDate(this.state.currentDate)}</h3>}
@@ -87,9 +88,10 @@ export default class ViewDish extends Component {
                     </div>
                 }
                 <div>
-                    <Link to={'/createDish'} className="nav-link">
+                   {isCurrentDate && 
+                      <Link to={'/createDish'} className="nav-link">
                         <button className="btn btn-primary">Create</button>
-                    </Link>
+                    </Link>}
                 </div>
             </div>
         );
