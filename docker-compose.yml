@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: ./DockerfilePostgre
+    ports:
+      - 5432:5432
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: voting_db
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./DockerfileBackend
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATA_URI: jdbc:postgresql://db:5432/voting_db
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./DockerfileFrontend
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend

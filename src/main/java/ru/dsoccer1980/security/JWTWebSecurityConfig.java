@@ -2,6 +2,7 @@ package ru.dsoccer1980.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ru.dsoccer1980.service.UserDetailsServiceImpl;
+import ru.dsoccer1980.util.config.InitProps;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -49,7 +51,31 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(jwtUnAuthResponseAuthEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/**").permitAll()
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/").permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/vote/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.POST, "/user", "/company").permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.POST, "/authenticate").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/company/**").hasRole(InitProps.ROLE_COMPANY)
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/user").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_COMPANY, InitProps.ROLE_ADMIN)
+                .and()
+                .authorizeRequests().antMatchers(HttpMethod.PUT, "/user").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_COMPANY, InitProps.ROLE_ADMIN)
+                .and()
+                .authorizeRequests().antMatchers("/user/**").hasAnyRole(InitProps.ROLE_USER, InitProps.ROLE_ADMIN)
+                .and()
+                .authorizeRequests().antMatchers("/admin/**").hasRole(InitProps.ROLE_ADMIN)
+                .and()
+                .authorizeRequests().antMatchers("/actuator/**").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/built/bundle.js").permitAll()
+                .and()
+                .authorizeRequests().antMatchers("/favicon.ico").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity

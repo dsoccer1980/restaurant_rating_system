@@ -1,10 +1,9 @@
-package ru.dsoccer1980.model;
+package ru.dsoccer1980.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,16 +13,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "restaurant")
+@Table(name = "dish")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"user"})
-@NamedEntityGraph(name = "restaurantGraph", includeAllAttributes = true)
-public class Restaurant {
+@NamedEntityGraph(name = "dishGraph", includeAllAttributes = true)
+public class Dish {
 
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = InitProps.START_SEQ)
@@ -35,21 +35,24 @@ public class Restaurant {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "address", nullable = false)
-    @NotBlank
-    @Size(max = 100)
-    private String address;
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     @JsonIgnore
-    private User user;
+    private Restaurant restaurant;
 
-    public Restaurant(@NotBlank @Size(min = 2, max = 100) String name, @NotBlank @Size(max = 100) String address, @NotNull User user) {
+    @Column(name = "date", nullable = false)
+    @NotNull
+    private LocalDate date;
+
+    public Dish(@NotBlank @Size(min = 2, max = 100) String name, BigDecimal price, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
         this.name = name;
-        this.address = address;
-        this.user = user;
+        this.price = price;
+        this.restaurant = restaurant;
+        this.date = date;
     }
 }

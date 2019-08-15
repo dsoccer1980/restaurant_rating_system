@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.EmptyResultDataAccessException;
-import ru.dsoccer1980.model.Restaurant;
-import ru.dsoccer1980.model.Role;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.Restaurant;
+import ru.dsoccer1980.domain.Role;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.util.config.InitProps;
 
 import java.time.LocalDateTime;

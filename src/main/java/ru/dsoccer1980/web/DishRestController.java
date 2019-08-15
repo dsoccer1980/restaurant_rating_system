@@ -3,10 +3,9 @@ package ru.dsoccer1980.web;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import ru.dsoccer1980.model.Dish;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Dish;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.security.AuthorizedUser;
 import ru.dsoccer1980.service.DishService;
 import ru.dsoccer1980.service.RestaurantService;
@@ -17,7 +16,6 @@ import java.util.Set;
 
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
 
     private final DishService dishService;
@@ -28,7 +26,7 @@ public class DishRestController {
         this.restaurantService = restaurantService;
     }
 
-    @PostMapping(value = "/company/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/company/dish")
     public Dish createDish(@RequestBody Dish dish) {
         if (dish.getDate().isBefore(LocalDate.now())) {
             return null;
@@ -43,7 +41,7 @@ public class DishRestController {
         dishService.delete(id);
     }
 
-    @PutMapping(value = "/company/dish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/company/dish")
     public void update(@RequestBody Dish dish) {
         dish.setRestaurant(dishService.get(dish.getId()).getRestaurant());
         dishService.update(dish);
@@ -77,7 +75,7 @@ public class DishRestController {
 
     private long getRestaurantId() {
         long userId = AuthorizedUser.get().getId();
-        return restaurantService.getRestaurantByUserId(userId).getId();
+        return restaurantService.getRestaurantByUserId(userId).orElse(null).getId();
     }
 
 }

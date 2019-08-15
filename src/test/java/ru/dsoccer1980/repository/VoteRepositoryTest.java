@@ -2,9 +2,9 @@ package ru.dsoccer1980.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.dsoccer1980.model.Restaurant;
-import ru.dsoccer1980.model.User;
-import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.domain.Restaurant;
+import ru.dsoccer1980.domain.User;
+import ru.dsoccer1980.domain.Vote;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

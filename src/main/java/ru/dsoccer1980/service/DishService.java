@@ -1,7 +1,7 @@
 package ru.dsoccer1980.service;
 
-import ru.dsoccer1980.model.Dish;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Dish;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
 import java.time.LocalDate;

@@ -2,7 +2,7 @@ package ru.dsoccer1980.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.User;
 
 import static java.util.Objects.requireNonNull;
 
@@ -21,6 +21,7 @@ public class AuthorizedUser {
             return null;
         }
         Object principal = auth.getPrincipal();
+
         return (principal instanceof User) ? (User) principal : null;
     }
 

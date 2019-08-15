@@ -2,8 +2,8 @@ package ru.dsoccer1980.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Dish;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Dish;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.repository.DishRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
@@ -57,11 +57,7 @@ public class DishServiceImpl implements DishService {
 
     @Override
     public List<LocalDate> getDatesByRestaurant(long id) {
-        return repository.findDishByRestaurantId(id).stream()
-                .map(Dish::getDate)
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
+        return repository.findDatesByRestaurantId(id);
     }
 
     @Override

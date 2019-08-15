@@ -1,8 +1,12 @@
 package ru.dsoccer1980.service;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.dto.UserDto;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
@@ -14,9 +18,13 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
+    private final MeterRegistry registry;
+    private Counter userRegisterCounter;
 
-    public UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository, MeterRegistry registry) {
         this.repository = repository;
+        this.registry = registry;
+        this.userRegisterCounter = registry.counter("services.user.registration");
     }
 
     @Override
@@ -38,6 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) {
         Objects.requireNonNull(user, "user must not be null");
+        userRegisterCounter();
         return repository.save(user);
     }
 
@@ -53,6 +62,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getByEmail(String email) {
         return repository.findByEmail(email);
+    }
+
+    @Override
+    public void update(long userId, UserDto userDto) {
+        Objects.requireNonNull(userDto, "user must not be null");
+        User userFromDb = repository.findById(userId).orElseThrow(() -> new NotFoundException("user id not found"));
+        userFromDb.setName(userDto.getName());
+        if (!userFromDb.getPassword().equals(userDto.getPassword())) {
+            userFromDb.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+        }
+        userFromDb.setEmail(userDto.getEmail());
+        repository.save(userFromDb);
+    }
+
+    private void userRegisterCounter() {
+        if (userRegisterCounter != null) {
+            userRegisterCounter.increment();
+        }
     }
 
 }

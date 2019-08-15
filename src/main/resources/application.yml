@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/voting_db
+    url: ${SPRING_DATA_URI:jdbc:postgresql://localhost:5432/voting_db}
     username: postgres
     password: postgres
-    initialization-mode: never
+    initialization-mode: always
   jpa:
     properties:
       hibernate:
@@ -16,6 +16,16 @@ spring:
     show-sql: true
     hibernate:
       use-new-id-generator-mappings: true
+
+  mail:
+    default-encoding: UTF-8
+    host: smtp.mailtrap.io
+    port: 2525
+    username: 89d17056c6d584
+    password: b354da79cd81e4
+
+
+
 logging:
   level:
     org:
@@ -32,4 +42,13 @@ jwt:
   token:
     expiration:
       in:
-        seconds: 604800
+        seconds: 3600
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics

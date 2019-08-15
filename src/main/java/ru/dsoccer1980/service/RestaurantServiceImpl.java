@@ -2,12 +2,12 @@ package ru.dsoccer1980.service;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Restaurant;
+import ru.dsoccer1980.domain.Restaurant;
 import ru.dsoccer1980.repository.RestaurantRepository;
 import ru.dsoccer1980.util.exception.NotFoundException;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Service
@@ -46,7 +46,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public Restaurant getRestaurantByUserId(long userId) {
+    public Optional<Restaurant> getRestaurantByUserId(long userId) {
         return repository.findRestaurantByUserId(userId);
     }
 

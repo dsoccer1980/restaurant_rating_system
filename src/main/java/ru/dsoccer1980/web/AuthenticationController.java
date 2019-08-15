@@ -9,8 +9,8 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import ru.dsoccer1980.model.Role;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.Role;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.security.AuthenticationException;
 import ru.dsoccer1980.security.JwtTokenRequest;
 import ru.dsoccer1980.security.JwtTokenResponse;
@@ -39,7 +39,9 @@ public class AuthenticationController {
 
     @GetMapping("/role")
     public Set<String> getRole(Principal currentUser) {
-        return ((User) ((UsernamePasswordAuthenticationToken) currentUser).getPrincipal())
+        Object principal = ((UsernamePasswordAuthenticationToken) currentUser).getPrincipal();
+
+        return ((User) principal)
                 .getRoles().stream()
                 .map(Role::getName)
                 .collect(Collectors.toSet());

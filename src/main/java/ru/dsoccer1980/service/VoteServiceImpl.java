@@ -1,9 +1,9 @@
 package ru.dsoccer1980.service;
 
 import org.springframework.stereotype.Service;
-import ru.dsoccer1980.model.Restaurant;
-import ru.dsoccer1980.model.User;
-import ru.dsoccer1980.model.Vote;
+import ru.dsoccer1980.domain.Restaurant;
+import ru.dsoccer1980.domain.User;
+import ru.dsoccer1980.domain.Vote;
 import ru.dsoccer1980.repository.RestaurantRepository;
 import ru.dsoccer1980.repository.UserRepository;
 import ru.dsoccer1980.repository.VoteRepository;
@@ -60,16 +60,24 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Map<Restaurant, Long> getRestaurantVotesAmountByDate(LocalDate date) {
+    public Map<String, Long> getRestaurantVotesAmountByDate(LocalDate date) {
         List<Vote> votes = voteRepository.findByDate(date);
-        Map<Restaurant, Long> map = new HashMap<>();
-        votes.forEach(vote -> map.merge(vote.getRestaurant(), 1L, (k, v) -> v + 1));
-        return map;
+        Map<String, Long> map = new HashMap<>();
+        votes.forEach(vote -> map.merge(vote.getRestaurant().getName(), 1L, (k, v) -> v + 1));
+
+        return map.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
     }
 
     @Override
-    public Vote get(long userId, LocalDate date) {
-        return voteRepository.findByUserIdAndDate(userId, date).orElse(null);
+    public Optional<Vote> getByUserIdAndDate(long userId, LocalDate date) {
+        return voteRepository.findByUserIdAndDate(userId, date);
+    }
+
+    @Override
+    public List<LocalDate> getDatesOfVotes() {
+        return voteRepository.findDatesOfVotes();
     }
 
 }

@@ -1,9 +1,10 @@
-package ru.dsoccer1980.model;
+package ru.dsoccer1980.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -13,17 +14,16 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 
 @Entity
-@Table(name = "dish")
+@Table(name = "restaurant")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedEntityGraph(name = "dishGraph", includeAllAttributes = true)
-public class Dish {
+@EqualsAndHashCode(exclude = {"user"})
+@NamedEntityGraph(name = "restaurantGraph", includeAllAttributes = true)
+public class Restaurant {
 
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = InitProps.START_SEQ)
@@ -35,24 +35,21 @@ public class Dish {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price", nullable = false)
-    private BigDecimal price;
+    @Column(name = "address", nullable = false)
+    @NotBlank
+    @Size(max = 100)
+    private String address;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     @JsonIgnore
-    private Restaurant restaurant;
+    private User user;
 
-    @Column(name = "date", nullable = false)
-    @NotNull
-    private LocalDate date;
-
-    public Dish(@NotBlank @Size(min = 2, max = 100) String name, BigDecimal price, @NotNull Restaurant restaurant, @NotNull LocalDate date) {
+    public Restaurant(@NotBlank @Size(min = 2, max = 100) String name, @NotBlank @Size(max = 100) String address, @NotNull User user) {
         this.name = name;
-        this.price = price;
-        this.restaurant = restaurant;
-        this.date = date;
+        this.address = address;
+        this.user = user;
     }
 }

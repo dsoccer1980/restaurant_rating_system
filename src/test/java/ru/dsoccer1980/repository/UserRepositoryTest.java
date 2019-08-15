@@ -3,8 +3,8 @@ package ru.dsoccer1980.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import ru.dsoccer1980.model.Role;
-import ru.dsoccer1980.model.User;
+import ru.dsoccer1980.domain.Role;
+import ru.dsoccer1980.domain.User;
 import ru.dsoccer1980.util.config.InitProps;
 
 import java.time.LocalDateTime;
