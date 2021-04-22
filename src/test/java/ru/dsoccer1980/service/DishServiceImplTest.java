@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.dsoccer1980.domain.Dish;
 import ru.dsoccer1980.domain.Restaurant;
@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
-@Import({DishServiceImpl.class})
+@ContextConfiguration(classes = DishServiceImpl.class)
 public class DishServiceImplTest {
 
     private final LocalDateTime registeredTime = LocalDateTime.of(2019, 7, 31, 0, 0, 0);
